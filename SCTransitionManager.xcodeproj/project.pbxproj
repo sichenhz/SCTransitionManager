@@ -7,15 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		258AE58D1C66FE6A00B86BC6 /* SCTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 258AE58C1C66FE6A00B86BC6 /* SCTransition.m */; };
+		258AE5961C670FAC00B86BC6 /* SCPresentTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 258AE5951C670FAC00B86BC6 /* SCPresentTransition.m */; };
+		258AE5991C67229F00B86BC6 /* SCDismissTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 258AE5981C67229F00B86BC6 /* SCDismissTransition.m */; };
 		25F094761C649A9700942728 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F094751C649A9700942728 /* main.m */; };
 		25F094791C649A9700942728 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F094781C649A9700942728 /* AppDelegate.m */; };
 		25F0947C1C649A9700942728 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F0947B1C649A9700942728 /* ViewController.m */; };
 		25F0947F1C649A9700942728 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25F0947D1C649A9700942728 /* Main.storyboard */; };
 		25F094811C649A9700942728 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25F094801C649A9700942728 /* Assets.xcassets */; };
 		25F094841C649A9700942728 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25F094821C649A9700942728 /* LaunchScreen.storyboard */; };
+		25F0948E1C64A20500942728 /* SCTransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F0948D1C64A20500942728 /* SCTransitionManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		258AE58B1C66FE6A00B86BC6 /* SCTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCTransition.h; sourceTree = "<group>"; };
+		258AE58C1C66FE6A00B86BC6 /* SCTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTransition.m; sourceTree = "<group>"; };
+		258AE5941C670FAC00B86BC6 /* SCPresentTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPresentTransition.h; sourceTree = "<group>"; };
+		258AE5951C670FAC00B86BC6 /* SCPresentTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPresentTransition.m; sourceTree = "<group>"; };
+		258AE5971C67229F00B86BC6 /* SCDismissTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCDismissTransition.h; sourceTree = "<group>"; };
+		258AE5981C67229F00B86BC6 /* SCDismissTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCDismissTransition.m; sourceTree = "<group>"; };
 		25F094711C649A9700942728 /* SCTransitionManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SCTransitionManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25F094751C649A9700942728 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		25F094771C649A9700942728 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -26,6 +36,8 @@
 		25F094801C649A9700942728 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		25F094831C649A9700942728 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		25F094851C649A9700942728 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		25F0948C1C64A20500942728 /* SCTransitionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCTransitionManager.h; sourceTree = "<group>"; };
+		25F0948D1C64A20500942728 /* SCTransitionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTransitionManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +70,7 @@
 		25F094731C649A9700942728 /* SCTransitionManager */ = {
 			isa = PBXGroup;
 			children = (
+				25F0948B1C649AAA00942728 /* SCTransitionManager */,
 				25F094771C649A9700942728 /* AppDelegate.h */,
 				25F094781C649A9700942728 /* AppDelegate.m */,
 				25F0947A1C649A9700942728 /* ViewController.h */,
@@ -77,6 +90,21 @@
 				25F094751C649A9700942728 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		25F0948B1C649AAA00942728 /* SCTransitionManager */ = {
+			isa = PBXGroup;
+			children = (
+				25F0948C1C64A20500942728 /* SCTransitionManager.h */,
+				25F0948D1C64A20500942728 /* SCTransitionManager.m */,
+				258AE58B1C66FE6A00B86BC6 /* SCTransition.h */,
+				258AE58C1C66FE6A00B86BC6 /* SCTransition.m */,
+				258AE5941C670FAC00B86BC6 /* SCPresentTransition.h */,
+				258AE5951C670FAC00B86BC6 /* SCPresentTransition.m */,
+				258AE5971C67229F00B86BC6 /* SCDismissTransition.h */,
+				258AE5981C67229F00B86BC6 /* SCDismissTransition.m */,
+			);
+			path = SCTransitionManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,8 +177,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25F0948E1C64A20500942728 /* SCTransitionManager.m in Sources */,
+				258AE58D1C66FE6A00B86BC6 /* SCTransition.m in Sources */,
+				258AE5961C670FAC00B86BC6 /* SCPresentTransition.m in Sources */,
 				25F0947C1C649A9700942728 /* ViewController.m in Sources */,
 				25F094791C649A9700942728 /* AppDelegate.m in Sources */,
+				258AE5991C67229F00B86BC6 /* SCDismissTransition.m in Sources */,
 				25F094761C649A9700942728 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,6 +332,7 @@
 				25F0948A1C649A9700942728 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

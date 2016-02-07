@@ -1,0 +1,59 @@
+//
+//  SCTransitionManager.m
+//  SCTransitionManager
+//
+//  Created by sichenwang on 16/2/5.
+//  Copyright © 2016年 sichenwang. All rights reserved.
+//
+
+#import "SCTransitionManager.h"
+#import "SCTransition.h"
+#import <objc/runtime.h>
+
+@implementation SCTransitionManager
+
++ (SCTransitionManager *)sharedInstance {
+    static SCTransitionManager *shared = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        shared = [[SCTransitionManager alloc] init];
+    });
+    return shared;
+}
+
+static const void *Transition = &Transition;
+- (void)presentViewController:(UIViewController *)viewController animated:(BOOL)animated completion:(void (^)())completion {
+    SCTransition *transition = [[SCTransition alloc] init];
+    viewController.transitioningDelegate = transition;
+    objc_setAssociatedObject(viewController, &Transition, transition, OBJC_ASSOCIATION_RETAIN);
+    UIViewController *topViewController = self.topViewController;
+    if (!topViewController.isBeingDismissed &&
+        !topViewController.isBeingPresented) {
+        [topViewController presentViewController:viewController animated:animated completion:completion];
+    }
+}
+
+- (void)dismissViewControllerAnimated:(BOOL)animated completion:(void (^)())completion {
+    UIViewController *topViewController = self.topViewController;
+    if (!topViewController.isBeingDismissed &&
+        !topViewController.isBeingPresented) {
+        [topViewController dismissViewControllerAnimated:animated completion:^(){
+            if (completion) {
+                completion();
+            }
+        }];
+    }
+}
+
+- (UIViewController *)topViewController {
+    UIViewController *topViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    while (YES) {
+        if ([topViewController presentedViewController] == nil) {
+            break;
+        }
+        topViewController = [topViewController presentedViewController];
+    }
+    return topViewController;
+}
+
+@end
