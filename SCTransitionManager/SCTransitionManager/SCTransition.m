@@ -10,8 +10,10 @@
 #import "SCPresentTransition.h"
 #import "SCDismissTransition.h"
 #import "SCPinterestPushTransition.h"
+#import "SCPinterestPopTransition.h"
 #import "SCGestureTransitionBackContext.h"
 #import "SCSwipeBackInteractionController.h"
+
 
 typedef enum {
     SCTransitionTypeNormal,
@@ -24,6 +26,7 @@ typedef enum {
 @property (nonatomic, strong) SCPresentTransition *presentTransition;
 @property (nonatomic, strong) SCPinterestPushTransition *pinterestPushTransition;
 @property (nonatomic, strong) SCDismissTransition *dismissTransition;
+@property (nonatomic, strong) SCPinterestPopTransition *pinterestPopTransition;
 @property (nonatomic, strong) SCSwipeBackInteractionController *interactionController;
 
 @end
@@ -43,18 +46,30 @@ typedef enum {
     return self;
 }
 
-- (instancetype)initWithSwipeBackView:(UIView *)swipeBackView SourceView:(UIView *)sourceview targetFrame:(CGRect)targetFrame sourceVC:(UIViewController *)sourceVC {
+- (instancetype)initWithSwipeBackView:(UIView *)swipeBackView
+                           sourceView:(UIView *)sourceView
+                             sourceVC:(UIViewController *)sourceVC
+                          sourceFrame:(CGRect)sourceFrmae
+                           targetView:(UIView *)targetView
+                             targetVC:(UIViewController *)targetVC
+                          targetFrame:(CGRect)targetFrame
+                           completion:(void (^)())completion {
     if (self = [super init]) {
         _type = SCTransitionTypePinterest;
         _pinterestPushTransition = [[SCPinterestPushTransition alloc] init];
-        _pinterestPushTransition.sourceView = sourceview;
+        _pinterestPushTransition.sourceView = sourceView;
         _pinterestPushTransition.targetFrame = targetFrame;
         _pinterestPushTransition.sourceViewController = sourceVC;
-        _dismissTransition = [[SCDismissTransition alloc] init];
+        _pinterestPopTransition = [[SCPinterestPopTransition alloc] init];
+        _pinterestPopTransition.sourceView = targetView;
+        _pinterestPopTransition.targetFrame = sourceFrmae;
+        _pinterestPopTransition.sourceViewController = targetVC;
+        _pinterestPopTransition.destinationViewController = sourceVC;
+        _pinterestPopTransition.destinationView = sourceView;
         _interactionController = [[SCSwipeBackInteractionController alloc] initWithView:swipeBackView];
         SCGestureTransitionBackContext *context = [[SCGestureTransitionBackContext alloc] init];
         _interactionController.context = context;
-        _dismissTransition.context = context;
+        _pinterestPopTransition.context = context;
     }
     return self;
 }
@@ -70,7 +85,11 @@ typedef enum {
 }
 
 - (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
-    return self.dismissTransition;
+    if (self.type == SCTransitionTypePinterest) {
+        return self.pinterestPopTransition;
+    } else {
+        return self.dismissTransition;
+    }
 }
 
 - (id <UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id <UIViewControllerAnimatedTransitioning>)animator {

@@ -28,16 +28,16 @@
     SCViewController *vc = [[SCViewController alloc] init];
     vc.title = @"Second VC";
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-    vc.view.backgroundColor = [UIColor whiteColor];
+    vc.view.backgroundColor = [UIColor orangeColor];
     
-    [[SCTransitionManager sharedInstance] presentViewController:nav sourceView:self.avatarView sourceVC:self targetFrame:CGRectMake(0, 64, 320, 320) completion:nil];
+    [[SCTransitionManager sharedInstance] presentViewController:nav sourceView:self.avatarView sourceVC:self sourceFrame:CGRectMake(0, 64, 50, 50) targetView:vc.imageView targetVC:vc targetFrame:CGRectMake(0, 64, 320, 320) completion:nil];
 }
 
 - (IBAction)push:(id)sender {
     SCViewController *vc = [[SCViewController alloc] init];
     vc.title = @"Second VC";
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-    vc.view.backgroundColor = [UIColor whiteColor];
+    vc.view.backgroundColor = [UIColor orangeColor];
     
     [[SCTransitionManager sharedInstance] presentViewController:nav animated:YES completion:nil];
 }

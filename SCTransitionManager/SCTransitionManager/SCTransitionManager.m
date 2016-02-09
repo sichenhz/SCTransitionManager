@@ -38,19 +38,26 @@ static const void *Transition = &Transition;
     }
 }
 
-- (void)presentViewController:(UIViewController *)viewController sourceView:(UIView *)sourceView sourceVC:(UIViewController *)sourceVC targetFrame:(CGRect)targetFrame completion:(void (^)())completion {
+- (void)presentViewController:(UIViewController *)viewController
+                   sourceView:(UIView *)sourceView
+                     sourceVC:(UIViewController *)sourceVC
+                  sourceFrame:(CGRect)sourceFrmae
+                   targetView:(UIView *)targetView
+                     targetVC:(UIViewController *)targetVC
+                  targetFrame:(CGRect)targetFrame
+                   completion:(void (^)())completion {
     if (viewController == nil) {
         return;
     }
     UIView *swipeBackView = [self swipeBackView:viewController];
-    SCTransition *transition = [[SCTransition alloc] initWithSwipeBackView:swipeBackView SourceView:sourceView targetFrame:targetFrame sourceVC:sourceVC];
+    SCTransition *transition = [[SCTransition alloc] initWithSwipeBackView:swipeBackView sourceView:sourceView sourceVC:sourceVC sourceFrame:sourceFrmae targetView:targetView targetVC:targetVC targetFrame:targetFrame completion:nil];
     viewController.transitioningDelegate = transition;
     objc_setAssociatedObject(viewController, &Transition, transition, OBJC_ASSOCIATION_RETAIN);
     
     UIViewController *topViewController = self.topViewController;
     if (!topViewController.isBeingDismissed &&
         !topViewController.isBeingPresented) {
-        [topViewController presentViewController:viewController animated:YES completion:completion];
+        [topViewController presentViewController:viewController animated:YES completion:nil];
     }
 }
 

@@ -10,4 +10,6 @@
 
 @interface SCViewController : UIViewController
 
+@property (nonatomic, weak) UIImageView *imageView;
+
 @end

@@ -24,8 +24,14 @@
  *  @param sourceview       要进行放大展开的UIView对象，此对象应该是sourceViewController的子View
  *  @param targetFrame      动画结束时，view对象的frame，注意：坐标系基于sourceViewController.view
  *  @param sourceVC         起始ViewController
- *  @param targetVC         目标ViewController
  */
-- (instancetype)initWithSwipeBackView:(UIView *)swipeBackView SourceView:(UIView *)sourceview targetFrame:(CGRect)targetFrame sourceVC:(UIViewController *)sourceVC;
+- (instancetype)initWithSwipeBackView:(UIView *)swipeBackView
+                           sourceView:(UIView *)sourceView
+                             sourceVC:(UIViewController *)sourceVC
+                          sourceFrame:(CGRect)sourceFrmae
+                           targetView:(UIView *)targetView
+                             targetVC:(UIViewController *)targetVC
+                          targetFrame:(CGRect)targetFrame
+                           completion:(void (^)())completion;
 
 @end

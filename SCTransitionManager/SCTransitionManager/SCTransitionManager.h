@@ -12,9 +12,21 @@
 
 + (SCTransitionManager *)sharedInstance;
 
-- (void)presentViewController:(UIViewController *)viewController animated:(BOOL)animated completion:(void (^)())completion;
+// normal
+- (void)presentViewController:(UIViewController *)viewController
+                     animated:(BOOL)animated completion:(void (^)())completion;
 
-- (void)dismissViewControllerAnimated:(BOOL)animated completion:(void (^)())completion;
+// pinterest
+- (void)presentViewController:(UIViewController *)viewController
+                   sourceView:(UIView *)sourceView
+                     sourceVC:(UIViewController *)sourceVC
+                  sourceFrame:(CGRect)sourceFrmae
+                   targetView:(UIView *)targetView
+                     targetVC:(UIViewController *)targetVC
+                  targetFrame:(CGRect)targetFrame
+                   completion:(void (^)())completion;
 
-- (void)presentViewController:(UIViewController *)viewController sourceView:(UIView *)sourceView sourceVC:(UIViewController *)sourceVC targetFrame:(CGRect)targetFrame completion:(void (^)())completion;
+- (void)dismissViewControllerAnimated:(BOOL)animated
+                           completion:(void (^)())completion;
+
 @end
