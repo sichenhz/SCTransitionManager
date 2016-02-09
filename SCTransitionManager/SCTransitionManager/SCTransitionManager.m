@@ -26,15 +26,8 @@ static const void *Transition = &Transition;
     if (viewController == nil) {
         return;
     }
-    UIView *swipeBackView = nil;
-    if ([viewController isKindOfClass:[UINavigationController class]] &&
-        ((UINavigationController *)viewController).viewControllers.count) {
-        UIViewController *rootVC = ((UINavigationController *)viewController).viewControllers.firstObject;
-        swipeBackView = rootVC.view;
-    } else {
-        swipeBackView = viewController.view;
-    }
-    SCTransition *transition = [[SCTransition alloc] initWithView:swipeBackView];
+    UIView *swipeBackView = [self swipeBackView:viewController];
+    SCTransition *transition = [[SCTransition alloc] initWithSwipeBackView:swipeBackView];
     viewController.transitioningDelegate = transition;
     objc_setAssociatedObject(viewController, &Transition, transition, OBJC_ASSOCIATION_RETAIN);
     
@@ -45,11 +38,37 @@ static const void *Transition = &Transition;
     }
 }
 
+- (void)presentViewController:(UIViewController *)viewController sourceView:(UIView *)sourceView sourceVC:(UIViewController *)sourceVC targetFrame:(CGRect)targetFrame completion:(void (^)())completion {
+    if (viewController == nil) {
+        return;
+    }
+    UIView *swipeBackView = [self swipeBackView:viewController];
+    SCTransition *transition = [[SCTransition alloc] initWithSwipeBackView:swipeBackView SourceView:sourceView targetFrame:targetFrame sourceVC:sourceVC];
+    viewController.transitioningDelegate = transition;
+    objc_setAssociatedObject(viewController, &Transition, transition, OBJC_ASSOCIATION_RETAIN);
+    
+    UIViewController *topViewController = self.topViewController;
+    if (!topViewController.isBeingDismissed &&
+        !topViewController.isBeingPresented) {
+        [topViewController presentViewController:viewController animated:YES completion:completion];
+    }
+}
+
 - (void)dismissViewControllerAnimated:(BOOL)animated completion:(void (^)())completion {
     UIViewController *topViewController = self.topViewController;
     if (!topViewController.isBeingDismissed &&
         !topViewController.isBeingPresented) {
         [topViewController dismissViewControllerAnimated:animated completion:completion];
+    }
+}
+
+- (UIView *)swipeBackView:(UIViewController *)viewController {
+    if ([viewController isKindOfClass:[UINavigationController class]] &&
+        ((UINavigationController *)viewController).viewControllers.count) {
+        UIViewController *rootVC = ((UINavigationController *)viewController).viewControllers.firstObject;
+        return rootVC.view;
+    } else {
+        return viewController.view;
     }
 }
 

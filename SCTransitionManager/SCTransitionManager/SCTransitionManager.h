@@ -16,4 +16,5 @@
 
 - (void)dismissViewControllerAnimated:(BOOL)animated completion:(void (^)())completion;
 
+- (void)presentViewController:(UIViewController *)viewController sourceView:(UIView *)sourceView sourceVC:(UIViewController *)sourceVC targetFrame:(CGRect)targetFrame completion:(void (^)())completion;
 @end

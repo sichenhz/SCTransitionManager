@@ -17,12 +17,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        UIViewController *vc = [[UIViewController alloc] init];
-        vc.view.backgroundColor = [UIColor grayColor];
-        vc.title = @"third VC";
-        [self.navigationController pushViewController:vc animated:YES];
-    });
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar.jpg"]];
+    imageView.frame = CGRectMake(0, 64, 320, 320);
+    [self.view addSubview:imageView];
 }
 
 #pragma mark - SCGestureBackInteractionDelegate
