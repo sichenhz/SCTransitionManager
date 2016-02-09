@@ -12,24 +12,24 @@
 @interface SCZoomDismissTransition : NSObject<UIViewControllerAnimatedTransitioning>
 
 /**
- * @param sourceView 进行缩小的UIView对象
+ *  动画开始时，进行缩小的UIView对象
  */
 @property (nonatomic, weak) UIView *sourceView;
 
 /**
- *  起始ViewController
- */
-@property (nonatomic, weak) UIViewController *sourceVC;
-
-/**
- *  动画结束时，目标View
+ *  动画结束时，已经缩小的UIView对象
  */
 @property (nonatomic,weak) UIView *targetView;
 
 /**
- *  设置将要展示的ViewController，即目标VC
+ *  起始View，即ViewController.view
  */
-@property (nonatomic, weak) UIViewController *targetVC;
+@property (nonatomic, weak) UIView *view;
+
+/**
+ *  目标view，即ViewController.view
+ */
+@property (nonatomic, weak) UIView *destinationView;
 
 @property (nonatomic,strong) SCGestureTransitionBackContext *context;
 

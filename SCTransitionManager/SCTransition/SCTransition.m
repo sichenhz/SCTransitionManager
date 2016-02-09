@@ -33,17 +33,17 @@ static const void *Transition = &Transition;
 }
 
 + (void)presentViewController:(UIViewController *)viewController
+                         view:(UIView *)view
                    sourceView:(UIView *)sourceView
-                     sourceVC:(UIViewController *)sourceVC
                    targetView:(UIView *)targetView
-                     targetVC:(UIViewController *)targetVC
                   targetFrame:(CGRect)targetFrame
                    completion:(void (^)())completion {
     if (viewController == nil) {
         return;
     }
     UIView *swipeBackView = [self swipeBackView:viewController];
-    SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithSwipeBackView:swipeBackView sourceView:sourceView sourceVC:sourceVC targetView:targetView targetVC:targetVC targetFrame:targetFrame completion:nil];
+    SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithSwipeBackView:swipeBackView view:view sourceView:sourceView targetView:targetView targetFrame:targetFrame completion:nil];
+    
     viewController.transitioningDelegate = transMgr;
     objc_setAssociatedObject(viewController, &Transition, transMgr, OBJC_ASSOCIATION_RETAIN);
     

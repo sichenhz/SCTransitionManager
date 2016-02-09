@@ -46,10 +46,9 @@ typedef enum {
 }
 
 - (instancetype)initWithSwipeBackView:(UIView *)swipeBackView
+                                 view:(UIView *)view
                            sourceView:(UIView *)sourceView
-                             sourceVC:(UIViewController *)sourceVC
                            targetView:(UIView *)targetView
-                             targetVC:(UIViewController *)targetVC
                           targetFrame:(CGRect)targetFrame
                            completion:(void (^)())completion {
     if (self = [super init]) {
@@ -57,11 +56,11 @@ typedef enum {
         _zoomPresentTrans = [[SCZoomPresentTransition alloc] init];
         _zoomPresentTrans.sourceView = sourceView;
         _zoomPresentTrans.targetFrame = targetFrame;
-        _zoomPresentTrans.sourceVC = sourceVC;
+        _zoomPresentTrans.view = view;
         _zoomDismissTrans = [[SCZoomDismissTransition alloc] init];
         _zoomDismissTrans.sourceView = targetView;
-        _zoomDismissTrans.sourceVC = targetVC;
-        _zoomDismissTrans.targetVC = sourceVC;
+        _zoomDismissTrans.view = swipeBackView;
+        _zoomDismissTrans.destinationView = view;
         _zoomDismissTrans.targetView = sourceView;
         _interactionController = [[SCSwipeBackInteractionController alloc] initWithView:swipeBackView];
         SCGestureTransitionBackContext *context = [[SCGestureTransitionBackContext alloc] init];

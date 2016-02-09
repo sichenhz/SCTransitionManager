@@ -13,10 +13,9 @@
 - (instancetype)initWithSwipeBackView:(UIView *)swipeBackView;
 
 - (instancetype)initWithSwipeBackView:(UIView *)swipeBackView
+                                 view:(UIView *)view
                            sourceView:(UIView *)sourceView
-                             sourceVC:(UIViewController *)sourceVC
                            targetView:(UIView *)targetView
-                             targetVC:(UIViewController *)targetVC
                           targetFrame:(CGRect)targetFrame
                            completion:(void (^)())completion;
 

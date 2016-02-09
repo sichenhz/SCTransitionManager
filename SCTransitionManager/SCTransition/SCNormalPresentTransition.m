@@ -8,7 +8,6 @@
 
 #import "SCNormalPresentTransition.h"
 
-
 @implementation SCNormalPresentTransition
 
 #pragma mark - UIViewControllerAnimatedTransitioning

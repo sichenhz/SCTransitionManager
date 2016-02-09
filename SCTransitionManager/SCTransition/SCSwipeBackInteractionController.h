@@ -51,23 +51,16 @@
 
 @interface SCSwipeBackInteractionController : UIPercentDrivenInteractiveTransition
 
-@property (nonatomic, strong) SCGestureTransitionBackContext *context;
-
 /**
  *  手势进行中：YES，正在进行手势交互；NO，未进行手势交互
  */
 @property (nonatomic, assign) BOOL interactionInProgress;
 
+@property (nonatomic, strong) SCGestureTransitionBackContext *context;
+
 /**
  *  @param 要支持手势划回的view
  */
 - (instancetype)initWithView:(UIView *)view;
-
-/**
- *  进行初始设置
- *
- *  @param view 要支持手势划回的view
- */
-- (void)addSwipeBackToView:(UIView *)view;
 
 @end

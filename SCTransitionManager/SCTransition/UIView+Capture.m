@@ -17,7 +17,7 @@
     if ([self respondsToSelector:@selector(snapshotViewAfterScreenUpdates:)]) {
         return [self snapshotViewAfterScreenUpdates:NO];
     }
-    return [[UIImageView alloc]initWithImage:[self capture]];
+    return [[UIImageView alloc] initWithImage:[self capture]];
 }
 
 - (UIImage *)capture {
@@ -37,7 +37,7 @@
 
 - (UIImage *)captureWithLimitHeight:(CGFloat)limitHeight {
     
-    CGRect bounds = limitHeight>0? CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width, limitHeight):self.bounds;
+    CGRect bounds = limitHeight > 0 ? CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width, limitHeight):self.bounds;
     
     UIGraphicsBeginImageContextWithOptions(bounds.size, NO, [[UIScreen mainScreen] scale]);
     

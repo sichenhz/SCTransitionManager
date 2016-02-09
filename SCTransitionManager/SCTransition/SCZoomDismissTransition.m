@@ -19,25 +19,23 @@
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext {
     
-    // toView
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     [transitionContext.containerView addSubview:toViewController.view];
     [transitionContext.containerView sendSubviewToBack:toViewController.view];
     UIView *sourceView = _sourceView.captureView;
-    UIView *animationView = [[UIView alloc] initWithFrame:_targetVC.view.frame];
+    UIView *animationView = [[UIView alloc] initWithFrame:_destinationView.frame];
     animationView.backgroundColor = [UIColor clearColor];
-    [_targetVC.view.superview insertSubview:animationView aboveSubview:_targetVC.view];
+    [_destinationView.superview insertSubview:animationView aboveSubview:_destinationView];
     [animationView addSubview:sourceView];
-    UIImage *layerImage = _targetVC.view.captureLayer;
+    UIImage *layerImage = _destinationView.captureLayer;
     UIView *destinationImageView = [[UIImageView alloc] initWithImage:layerImage];
-    UIView *whiteBgView = [[UIView alloc] initWithFrame:_targetVC.view.bounds];
+    UIView *whiteBgView = [[UIView alloc] initWithFrame:_destinationView.bounds];
     whiteBgView.backgroundColor = [UIColor whiteColor];
-    [_targetVC.view addSubview:whiteBgView];
+    [_destinationView addSubview:whiteBgView];
     destinationImageView.frame = whiteBgView.bounds;
     [whiteBgView addSubview:destinationImageView];
     sourceView.frame = _sourceView.frame;
 
-    // fromView
     UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *sourceVC = nil;
     if ([fromViewController isKindOfClass:[UINavigationController class]] && ((UINavigationController *)fromViewController).viewControllers.count) {
@@ -45,11 +43,8 @@
     } else {
         sourceVC = fromViewController;
     }
-
-    // animate
-
     
-    CGPoint centerOfDestinationView =  [_targetView convertPoint:CGPointMake(_targetView.frame.size.width/2, _targetView.frame.size.height/2) toView:_targetVC.view];
+    CGPoint centerOfDestinationView =  [_targetView convertPoint:CGPointMake(_targetView.frame.size.width/2, _targetView.frame.size.height/2) toView:_destinationView];
     
     CGPoint centerOfSourceFrame = CGPointMake(_sourceView.frame.origin.x+_sourceView.frame.size.width/2, _sourceView.frame.origin.y+_sourceView.frame.size.height/2);
     
@@ -85,9 +80,7 @@
         //这是苹果的bug，有时候手势都介绍了才触发动画返回（正常情况是手势开始就应调用这个方法），此时animation的completion不会被调用，会导致冻屏，因此出此下策
         animationBlock();
         animationCompleteBlock(YES);
-        NSLog(@"pinterest gesture finish ahead");
     } else {
-        NSLog(@"pinterest pop animation");
         [UIView animateKeyframesWithDuration:[self transitionDuration:transitionContext]
                                        delay:0.0
                                      options:UIViewKeyframeAnimationOptionLayoutSubviews|UIViewAnimationOptionOverrideInheritedOptions

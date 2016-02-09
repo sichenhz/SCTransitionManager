@@ -25,20 +25,20 @@
     
     [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     
-    CGRect originFrame = _sourceVC.view.frame;
-    UIView *sourceVCSnapshotView = _sourceVC.view.captureView;
+    CGRect originFrame = _view.frame;
+    UIView *sourceVCSnapshotView = _view.captureView;
     UIView *backgroundView = [[UIView alloc] initWithFrame:originFrame];
     backgroundView.backgroundColor = [UIColor colorWithRed:238.0/255.0
                                                      green:238.0/255.0
                                                       blue:238.0/255.0
                                                      alpha:1.0];
-    [_sourceVC.view.superview insertSubview:backgroundView aboveSubview:_sourceVC.view];
+    [_view.superview insertSubview:backgroundView aboveSubview:_view];
     sourceVCSnapshotView.frame = backgroundView.bounds;
     [backgroundView addSubview:sourceVCSnapshotView];
     
-    UIView *animationView = [[UIView alloc] initWithFrame:_sourceVC.view.frame];
+    UIView *animationView = [[UIView alloc] initWithFrame:_view.frame];
     animationView.backgroundColor = [UIColor clearColor];
-    [_sourceVC.view.superview insertSubview:animationView aboveSubview:backgroundView];
+    [_view.superview insertSubview:animationView aboveSubview:backgroundView];
     
     UIView *imageViewSourceVC = [_sourceView captureView];
     CGRect frameInVCView = [_sourceView convertRect:_sourceView.bounds toView:animationView];
@@ -46,7 +46,7 @@
     imageViewSourceVC.contentMode = _sourceView.contentMode;
     [animationView addSubview:imageViewSourceVC];
     
-    CGPoint centerobj = [_sourceView convertPoint:CGPointMake(_sourceView.bounds.size.width / 2, _sourceView.bounds.size.height / 2) toView:_sourceVC.view];
+    CGPoint centerobj = [_sourceView convertPoint:CGPointMake(_sourceView.bounds.size.width / 2, _sourceView.bounds.size.height / 2) toView:_view];
     
     CGPoint centerOfTargetFrame = CGPointMake(self.targetFrame.origin.x + self.targetFrame.size.width / 2, self.targetFrame.origin.y + self.targetFrame.size.height / 2);
     
