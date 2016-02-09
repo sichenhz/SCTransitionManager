@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SCGestureTransitionBackContext.h"
 
 @interface SCDismissTransition : NSObject<UIViewControllerAnimatedTransitioning>
 
 @property (nonatomic, assign) NSTimeInterval duration;
+@property (nonatomic, strong) SCGestureTransitionBackContext *context;
 
 @end

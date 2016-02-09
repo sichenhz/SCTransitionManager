@@ -12,7 +12,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _duration = 3;
+        _duration = 0.3;
     }
     return self;
 }

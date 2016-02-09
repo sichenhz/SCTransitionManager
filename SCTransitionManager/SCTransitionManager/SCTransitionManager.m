@@ -23,9 +23,21 @@
 
 static const void *Transition = &Transition;
 - (void)presentViewController:(UIViewController *)viewController animated:(BOOL)animated completion:(void (^)())completion {
-    SCTransition *transition = [[SCTransition alloc] init];
+    if (viewController == nil) {
+        return;
+    }
+    UIView *swipeBackView = nil;
+    if ([viewController isKindOfClass:[UINavigationController class]] &&
+        ((UINavigationController *)viewController).viewControllers.count) {
+        UIViewController *rootVC = ((UINavigationController *)viewController).viewControllers.firstObject;
+        swipeBackView = rootVC.view;
+    } else {
+        swipeBackView = viewController.view;
+    }
+    SCTransition *transition = [[SCTransition alloc] initWithView:swipeBackView];
     viewController.transitioningDelegate = transition;
     objc_setAssociatedObject(viewController, &Transition, transition, OBJC_ASSOCIATION_RETAIN);
+    
     UIViewController *topViewController = self.topViewController;
     if (!topViewController.isBeingDismissed &&
         !topViewController.isBeingPresented) {
@@ -37,11 +49,7 @@ static const void *Transition = &Transition;
     UIViewController *topViewController = self.topViewController;
     if (!topViewController.isBeingDismissed &&
         !topViewController.isBeingPresented) {
-        [topViewController dismissViewControllerAnimated:animated completion:^(){
-            if (completion) {
-                completion();
-            }
-        }];
+        [topViewController dismissViewControllerAnimated:animated completion:completion];
     }
 }
 

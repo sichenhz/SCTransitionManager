@@ -12,7 +12,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _duration = 3;
+        _duration = 0.3;
     }
     return self;
 }
@@ -51,17 +51,17 @@
 
     // 1.右划返回手势，加入速度判断，如果速度大于阀值，则无论滑动过程是否超过50%，都认为手势成功
     // 2.右划手势返回和点返回按钮的动画时间函数不同
-    UIViewAnimationOptions opts = [transitionContext isInteractive] ? UIViewAnimationOptionCurveLinear : UIViewAnimationOptionCurveEaseOut;
+    UIViewAnimationOptions opts = transitionContext.isInteractive ? UIViewAnimationOptionCurveLinear : UIViewAnimationOptionCurveEaseOut;
 
-//    if (self.context.gestureFinished && [transitionContext isInteractive]){
-//        animationBlock();
-//        animationCompleteBlock(YES);
-//    } else {
+    if (self.context.gestureFinished && transitionContext.isInteractive) {
+        animationBlock();
+        animationCompleteBlock(YES);
+    } else {
         [UIView animateWithDuration:[self transitionDuration:transitionContext]
                               delay:0.0
                             options:UIViewAnimationOptionOverrideInheritedOptions | opts |UIViewAnimationOptionTransitionNone
                          animations:animationBlock completion:animationCompleteBlock];
-//    }
+    }
 }
 
 @end

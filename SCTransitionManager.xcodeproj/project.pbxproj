@@ -10,6 +10,9 @@
 		258AE58D1C66FE6A00B86BC6 /* SCTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 258AE58C1C66FE6A00B86BC6 /* SCTransition.m */; };
 		258AE5961C670FAC00B86BC6 /* SCPresentTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 258AE5951C670FAC00B86BC6 /* SCPresentTransition.m */; };
 		258AE5991C67229F00B86BC6 /* SCDismissTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 258AE5981C67229F00B86BC6 /* SCDismissTransition.m */; };
+		258AE59F1C6747A100B86BC6 /* SCSwipeBackInteractionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 258AE59E1C6747A100B86BC6 /* SCSwipeBackInteractionController.m */; };
+		258AE5A81C67778700B86BC6 /* SCGestureTransitionBackContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 258AE5A71C67778700B86BC6 /* SCGestureTransitionBackContext.m */; };
+		258AE5AB1C67AB3F00B86BC6 /* SCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 258AE5AA1C67AB3F00B86BC6 /* SCViewController.m */; };
 		25F094761C649A9700942728 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F094751C649A9700942728 /* main.m */; };
 		25F094791C649A9700942728 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F094781C649A9700942728 /* AppDelegate.m */; };
 		25F0947C1C649A9700942728 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F0947B1C649A9700942728 /* ViewController.m */; };
@@ -26,6 +29,12 @@
 		258AE5951C670FAC00B86BC6 /* SCPresentTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPresentTransition.m; sourceTree = "<group>"; };
 		258AE5971C67229F00B86BC6 /* SCDismissTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCDismissTransition.h; sourceTree = "<group>"; };
 		258AE5981C67229F00B86BC6 /* SCDismissTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCDismissTransition.m; sourceTree = "<group>"; };
+		258AE59D1C6747A100B86BC6 /* SCSwipeBackInteractionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSwipeBackInteractionController.h; sourceTree = "<group>"; };
+		258AE59E1C6747A100B86BC6 /* SCSwipeBackInteractionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSwipeBackInteractionController.m; sourceTree = "<group>"; };
+		258AE5A61C67778700B86BC6 /* SCGestureTransitionBackContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCGestureTransitionBackContext.h; sourceTree = "<group>"; };
+		258AE5A71C67778700B86BC6 /* SCGestureTransitionBackContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCGestureTransitionBackContext.m; sourceTree = "<group>"; };
+		258AE5A91C67AB3F00B86BC6 /* SCViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCViewController.h; sourceTree = "<group>"; };
+		258AE5AA1C67AB3F00B86BC6 /* SCViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCViewController.m; sourceTree = "<group>"; };
 		25F094711C649A9700942728 /* SCTransitionManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SCTransitionManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25F094751C649A9700942728 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		25F094771C649A9700942728 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -75,6 +84,8 @@
 				25F094781C649A9700942728 /* AppDelegate.m */,
 				25F0947A1C649A9700942728 /* ViewController.h */,
 				25F0947B1C649A9700942728 /* ViewController.m */,
+				258AE5A91C67AB3F00B86BC6 /* SCViewController.h */,
+				258AE5AA1C67AB3F00B86BC6 /* SCViewController.m */,
 				25F0947D1C649A9700942728 /* Main.storyboard */,
 				25F094801C649A9700942728 /* Assets.xcassets */,
 				25F094821C649A9700942728 /* LaunchScreen.storyboard */,
@@ -103,6 +114,10 @@
 				258AE5951C670FAC00B86BC6 /* SCPresentTransition.m */,
 				258AE5971C67229F00B86BC6 /* SCDismissTransition.h */,
 				258AE5981C67229F00B86BC6 /* SCDismissTransition.m */,
+				258AE59D1C6747A100B86BC6 /* SCSwipeBackInteractionController.h */,
+				258AE59E1C6747A100B86BC6 /* SCSwipeBackInteractionController.m */,
+				258AE5A61C67778700B86BC6 /* SCGestureTransitionBackContext.h */,
+				258AE5A71C67778700B86BC6 /* SCGestureTransitionBackContext.m */,
 			);
 			path = SCTransitionManager;
 			sourceTree = "<group>";
@@ -177,12 +192,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				258AE59F1C6747A100B86BC6 /* SCSwipeBackInteractionController.m in Sources */,
 				25F0948E1C64A20500942728 /* SCTransitionManager.m in Sources */,
+				258AE5A81C67778700B86BC6 /* SCGestureTransitionBackContext.m in Sources */,
 				258AE58D1C66FE6A00B86BC6 /* SCTransition.m in Sources */,
 				258AE5961C670FAC00B86BC6 /* SCPresentTransition.m in Sources */,
 				25F0947C1C649A9700942728 /* ViewController.m in Sources */,
 				25F094791C649A9700942728 /* AppDelegate.m in Sources */,
 				258AE5991C67229F00B86BC6 /* SCDismissTransition.m in Sources */,
+				258AE5AB1C67AB3F00B86BC6 /* SCViewController.m in Sources */,
 				25F094761C649A9700942728 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

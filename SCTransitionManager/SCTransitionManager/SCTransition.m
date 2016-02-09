@@ -9,20 +9,27 @@
 #import "SCTransition.h"
 #import "SCPresentTransition.h"
 #import "SCDismissTransition.h"
+#import "SCGestureTransitionBackContext.h"
+#import "SCSwipeBackInteractionController.h"
 
 @interface SCTransition()
 
 @property (nonatomic, strong) SCPresentTransition *presentTransition;
 @property (nonatomic, strong) SCDismissTransition *dismissTransition;
+@property (nonatomic, strong) SCSwipeBackInteractionController *interactionController;
 
 @end
 
 @implementation SCTransition
 
-- (instancetype)init {
+- (instancetype)initWithView:(UIView *)view {
     if (self = [super init]) {
         _presentTransition = [[SCPresentTransition alloc] init];
         _dismissTransition = [[SCDismissTransition alloc] init];
+        _interactionController = [[SCSwipeBackInteractionController alloc] initWithView:view];
+        SCGestureTransitionBackContext *context = [[SCGestureTransitionBackContext alloc] init];
+        _interactionController.context = context;
+        _dismissTransition.context = context;
     }
     return self;
 }
@@ -35,6 +42,10 @@
 
 - (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
     return self.dismissTransition;
+}
+
+- (id <UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id <UIViewControllerAnimatedTransitioning>)animator {
+    return self.interactionController.interactionInProgress ? self.interactionController : nil;
 }
 
 @end

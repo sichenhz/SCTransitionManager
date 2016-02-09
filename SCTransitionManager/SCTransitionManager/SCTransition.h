@@ -10,4 +10,9 @@
 
 @interface SCTransition : NSObject<UIViewControllerTransitioningDelegate>
 
+/**
+ *  @param view 要支持手势返回的view
+ */
+- (instancetype)initWithView:(UIView *)view;
+
 @end
