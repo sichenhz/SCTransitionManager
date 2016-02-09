@@ -1,26 +1,20 @@
 //
-//  SCPresentTransition.m
+//  SCNormalPresentTransition.m
 //  SCTransitionManager
 //
 //  Created by sichenwang on 16/2/7.
 //  Copyright © 2016年 sichenwang. All rights reserved.
 //
 
-#import "SCPresentTransition.h"
+#import "SCNormalPresentTransition.h"
 
-@implementation SCPresentTransition
 
-- (instancetype)init {
-    if (self = [super init]) {
-        _duration = 0.3;
-    }
-    return self;
-}
+@implementation SCNormalPresentTransition
 
 #pragma mark - UIViewControllerAnimatedTransitioning
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext {
-    return self.duration;
+    return 0.3;
 }
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext {

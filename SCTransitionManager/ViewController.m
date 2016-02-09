@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "SCTransitionManager.h"
+#import "SCTransition.h"
 #import "SCViewController.h"
 
 @interface ViewController ()
@@ -30,7 +30,7 @@
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
     vc.view.backgroundColor = [UIColor orangeColor];
     
-    [[SCTransitionManager sharedInstance] presentViewController:nav sourceView:self.avatarView sourceVC:self sourceFrame:CGRectMake(0, 64, 50, 50) targetView:vc.imageView targetVC:vc targetFrame:CGRectMake(0, 64, 320, 320) completion:nil];
+    [SCTransition presentViewController:nav sourceView:self.avatarView sourceVC:self targetView:vc.imageView targetVC:vc targetFrame:CGRectMake(0, 64, 320, 320) completion:nil];
 }
 
 - (IBAction)push:(id)sender {
@@ -39,7 +39,7 @@
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
     vc.view.backgroundColor = [UIColor orangeColor];
     
-    [[SCTransitionManager sharedInstance] presentViewController:nav animated:YES completion:nil];
+    [SCTransition presentViewController:nav animated:YES completion:nil];
 }
 
 @end

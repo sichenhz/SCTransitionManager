@@ -11,11 +11,6 @@
 
 @interface SCDismissTransition : NSObject<UIViewControllerAnimatedTransitioning>
 
-/**
- *  动画时长.
- */
-@property (nonatomic, assign) NSTimeInterval duration;
-
 @property (nonatomic, strong) SCGestureTransitionBackContext *context;
 
 @end

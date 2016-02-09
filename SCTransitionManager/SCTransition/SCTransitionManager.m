@@ -1,47 +1,46 @@
 //
-//  SCTransition.m
+//  SCTransitionManager.m
 //  SCTransitionManager
 //
-//  Created by sichenwang on 16/2/7.
+//  Created by sichenwang on 16/2/5.
 //  Copyright © 2016年 sichenwang. All rights reserved.
 //
 
-#import "SCTransition.h"
-#import "SCPresentTransition.h"
-#import "SCDismissTransition.h"
-#import "SCPinterestPushTransition.h"
-#import "SCPinterestPopTransition.h"
+#import "SCTransitionManager.h"
+#import "SCNormalPresentTransition.h"
+#import "SCNormalDismissTransition.h"
+#import "SCZoomPresentTransition.h"
+#import "SCZoomDismissTransition.h"
 #import "SCGestureTransitionBackContext.h"
 #import "SCSwipeBackInteractionController.h"
 
-
 typedef enum {
     SCTransitionTypeNormal,
-    SCTransitionTypePinterest
+    SCTransitionTypeZoom
 } SCTransitionType;
 
-@interface SCTransition()
+@interface SCTransitionManager()
 
 @property (nonatomic, assign) SCTransitionType type;
-@property (nonatomic, strong) SCPresentTransition *presentTransition;
-@property (nonatomic, strong) SCPinterestPushTransition *pinterestPushTransition;
-@property (nonatomic, strong) SCDismissTransition *dismissTransition;
-@property (nonatomic, strong) SCPinterestPopTransition *pinterestPopTransition;
+@property (nonatomic, strong) SCNormalPresentTransition *normalPresentTrans;
+@property (nonatomic, strong) SCNormalDismissTransition *normalDismissTrans;
+@property (nonatomic, strong) SCZoomPresentTransition *zoomPresentTrans;
+@property (nonatomic, strong) SCZoomDismissTransition *zoomDismissTrans;
 @property (nonatomic, strong) SCSwipeBackInteractionController *interactionController;
 
 @end
 
-@implementation SCTransition
+@implementation SCTransitionManager
 
 - (instancetype)initWithSwipeBackView:(UIView *)swipeBackView {
     if (self = [super init]) {
         _type = SCTransitionTypeNormal;
-        _presentTransition = [[SCPresentTransition alloc] init];
-        _dismissTransition = [[SCDismissTransition alloc] init];
+        _normalPresentTrans = [[SCNormalPresentTransition alloc] init];
+        _normalDismissTrans = [[SCNormalDismissTransition alloc] init];
         _interactionController = [[SCSwipeBackInteractionController alloc] initWithView:swipeBackView];
         SCGestureTransitionBackContext *context = [[SCGestureTransitionBackContext alloc] init];
         _interactionController.context = context;
-        _dismissTransition.context = context;
+        _normalDismissTrans.context = context;
     }
     return self;
 }
@@ -49,27 +48,25 @@ typedef enum {
 - (instancetype)initWithSwipeBackView:(UIView *)swipeBackView
                            sourceView:(UIView *)sourceView
                              sourceVC:(UIViewController *)sourceVC
-                          sourceFrame:(CGRect)sourceFrmae
                            targetView:(UIView *)targetView
                              targetVC:(UIViewController *)targetVC
                           targetFrame:(CGRect)targetFrame
                            completion:(void (^)())completion {
     if (self = [super init]) {
-        _type = SCTransitionTypePinterest;
-        _pinterestPushTransition = [[SCPinterestPushTransition alloc] init];
-        _pinterestPushTransition.sourceView = sourceView;
-        _pinterestPushTransition.targetFrame = targetFrame;
-        _pinterestPushTransition.sourceViewController = sourceVC;
-        _pinterestPopTransition = [[SCPinterestPopTransition alloc] init];
-        _pinterestPopTransition.sourceView = targetView;
-        _pinterestPopTransition.targetFrame = sourceFrmae;
-        _pinterestPopTransition.sourceViewController = targetVC;
-        _pinterestPopTransition.destinationViewController = sourceVC;
-        _pinterestPopTransition.destinationView = sourceView;
+        _type = SCTransitionTypeZoom;
+        _zoomPresentTrans = [[SCZoomPresentTransition alloc] init];
+        _zoomPresentTrans.sourceView = sourceView;
+        _zoomPresentTrans.targetFrame = targetFrame;
+        _zoomPresentTrans.sourceVC = sourceVC;
+        _zoomDismissTrans = [[SCZoomDismissTransition alloc] init];
+        _zoomDismissTrans.sourceView = targetView;
+        _zoomDismissTrans.sourceVC = targetVC;
+        _zoomDismissTrans.targetVC = sourceVC;
+        _zoomDismissTrans.targetView = sourceView;
         _interactionController = [[SCSwipeBackInteractionController alloc] initWithView:swipeBackView];
         SCGestureTransitionBackContext *context = [[SCGestureTransitionBackContext alloc] init];
         _interactionController.context = context;
-        _pinterestPopTransition.context = context;
+        _zoomDismissTrans.context = context;
     }
     return self;
 }
@@ -77,18 +74,18 @@ typedef enum {
 #pragma mark - UIViewControllerTransitioningDelegate
 
 - (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
-    if (self.type == SCTransitionTypePinterest) {
-        return self.pinterestPushTransition;
+    if (self.type == SCTransitionTypeZoom) {
+        return self.zoomPresentTrans;
     } else {
-        return self.presentTransition;
+        return self.normalPresentTrans;
     }
 }
 
 - (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
-    if (self.type == SCTransitionTypePinterest) {
-        return self.pinterestPopTransition;
+    if (self.type == SCTransitionTypeZoom) {
+        return self.zoomDismissTrans;
     } else {
-        return self.dismissTransition;
+        return self.normalDismissTrans;
     }
 }
 

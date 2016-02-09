@@ -10,9 +10,4 @@
 
 @interface SCPresentTransition : NSObject<UIViewControllerAnimatedTransitioning>
 
-/**
- *  动画时长.
- */
-@property (nonatomic, assign) NSTimeInterval duration;
-
 @end

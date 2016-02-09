@@ -1,26 +1,19 @@
 //
-//  SCDismissTransition.m
+//  SCNormalDismissTransition.m
 //  SCTransitionManager
 //
 //  Created by sichenwang on 16/2/7.
 //  Copyright © 2016年 sichenwang. All rights reserved.
 //
 
-#import "SCDismissTransition.h"
+#import "SCNormalDismissTransition.h"
 
-@implementation SCDismissTransition
-
-- (instancetype)init {
-    if (self = [super init]) {
-        _duration = 0.3;
-    }
-    return self;
-}
+@implementation SCNormalDismissTransition
 
 #pragma mark - UIViewControllerAnimatedTransitioning
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext {
-    return self.duration;
+    return 0.3;
 }
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext {

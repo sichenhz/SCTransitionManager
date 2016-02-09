@@ -1,35 +1,29 @@
 //
-//  SCTransitionManager.m
+//  SCTransition.m
 //  SCTransitionManager
 //
-//  Created by sichenwang on 16/2/5.
+//  Created by sichenwang on 16/2/7.
 //  Copyright © 2016年 sichenwang. All rights reserved.
 //
 
-#import "SCTransitionManager.h"
 #import "SCTransition.h"
+#import "SCTransitionManager.h"
 #import <objc/runtime.h>
 
-@implementation SCTransitionManager
-
-+ (SCTransitionManager *)sharedInstance {
-    static SCTransitionManager *shared = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        shared = [[SCTransitionManager alloc] init];
-    });
-    return shared;
-}
+@implementation SCTransition
 
 static const void *Transition = &Transition;
-- (void)presentViewController:(UIViewController *)viewController animated:(BOOL)animated completion:(void (^)())completion {
+
++ (void)presentViewController:(UIViewController *)viewController
+                     animated:(BOOL)animated
+                   completion:(void (^)())completion {
     if (viewController == nil) {
         return;
     }
     UIView *swipeBackView = [self swipeBackView:viewController];
-    SCTransition *transition = [[SCTransition alloc] initWithSwipeBackView:swipeBackView];
-    viewController.transitioningDelegate = transition;
-    objc_setAssociatedObject(viewController, &Transition, transition, OBJC_ASSOCIATION_RETAIN);
+    SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithSwipeBackView:swipeBackView];
+    viewController.transitioningDelegate = transMgr;
+    objc_setAssociatedObject(viewController, &Transition, transMgr, OBJC_ASSOCIATION_RETAIN);
     
     UIViewController *topViewController = self.topViewController;
     if (!topViewController.isBeingDismissed &&
@@ -38,10 +32,9 @@ static const void *Transition = &Transition;
     }
 }
 
-- (void)presentViewController:(UIViewController *)viewController
++ (void)presentViewController:(UIViewController *)viewController
                    sourceView:(UIView *)sourceView
                      sourceVC:(UIViewController *)sourceVC
-                  sourceFrame:(CGRect)sourceFrmae
                    targetView:(UIView *)targetView
                      targetVC:(UIViewController *)targetVC
                   targetFrame:(CGRect)targetFrame
@@ -50,9 +43,9 @@ static const void *Transition = &Transition;
         return;
     }
     UIView *swipeBackView = [self swipeBackView:viewController];
-    SCTransition *transition = [[SCTransition alloc] initWithSwipeBackView:swipeBackView sourceView:sourceView sourceVC:sourceVC sourceFrame:sourceFrmae targetView:targetView targetVC:targetVC targetFrame:targetFrame completion:nil];
-    viewController.transitioningDelegate = transition;
-    objc_setAssociatedObject(viewController, &Transition, transition, OBJC_ASSOCIATION_RETAIN);
+    SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithSwipeBackView:swipeBackView sourceView:sourceView sourceVC:sourceVC targetView:targetView targetVC:targetVC targetFrame:targetFrame completion:nil];
+    viewController.transitioningDelegate = transMgr;
+    objc_setAssociatedObject(viewController, &Transition, transMgr, OBJC_ASSOCIATION_RETAIN);
     
     UIViewController *topViewController = self.topViewController;
     if (!topViewController.isBeingDismissed &&
@@ -61,7 +54,7 @@ static const void *Transition = &Transition;
     }
 }
 
-- (void)dismissViewControllerAnimated:(BOOL)animated completion:(void (^)())completion {
++ (void)dismissViewControllerAnimated:(BOOL)animated completion:(void (^)())completion {
     UIViewController *topViewController = self.topViewController;
     if (!topViewController.isBeingDismissed &&
         !topViewController.isBeingPresented) {
@@ -69,7 +62,7 @@ static const void *Transition = &Transition;
     }
 }
 
-- (UIView *)swipeBackView:(UIViewController *)viewController {
++ (UIView *)swipeBackView:(UIViewController *)viewController {
     if ([viewController isKindOfClass:[UINavigationController class]] &&
         ((UINavigationController *)viewController).viewControllers.count) {
         UIViewController *rootVC = ((UINavigationController *)viewController).viewControllers.firstObject;
@@ -79,7 +72,7 @@ static const void *Transition = &Transition;
     }
 }
 
-- (UIViewController *)topViewController {
++ (UIViewController *)topViewController {
     UIViewController *topViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
     while (YES) {
         if ([topViewController presentedViewController] == nil) {

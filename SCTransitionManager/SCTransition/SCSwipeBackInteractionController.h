@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SCDismissTransition.h"
+#import "SCNormalDismissTransition.h"
 
 @interface UIView (FindUIViewController)
 
