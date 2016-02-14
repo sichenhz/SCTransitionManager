@@ -61,6 +61,6 @@
 /**
  *  @param 要支持手势划回的view
  */
-- (instancetype)initWithView:(UIView *)view;
+- (instancetype)initWithView:(UIView *)view isPush:(BOOL)isPush;
 
 @end

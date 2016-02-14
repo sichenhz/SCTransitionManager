@@ -35,12 +35,14 @@
 {
     BOOL _shouldCompleteTransition;
     BOOL _gestureChanged;
+    BOOL _isPush;
     __weak id<SCGestureBackInteractionDelegate> _gestureBackInteractionDelegate;
 }
 
-- (instancetype)initWithView:(UIView *)view {
+- (instancetype)initWithView:(UIView *)view isPush:(BOOL)isPush {
     if (self = [super init]) {
         _gestureChanged = NO;
+        _isPush = isPush;
         [self addSwipeBackToView:view];
     }
     return self;
@@ -72,7 +74,13 @@
             if ([_gestureBackInteractionDelegate respondsToSelector:@selector(fireGuestureBack)]) {
                 [_gestureBackInteractionDelegate fireGuestureBack];
             } else {
-                [parentViewController dismissViewControllerAnimated:YES completion:nil];
+                if (_isPush) {
+                    if (parentViewController.navigationController) {
+                        [parentViewController.navigationController popViewControllerAnimated:YES];
+                    }
+                } else {
+                    [parentViewController dismissViewControllerAnimated:YES completion:nil];
+                }
             }
             if ([_gestureBackInteractionDelegate respondsToSelector:@selector(gestureBackBegin)]) {
                 [_gestureBackInteractionDelegate gestureBackBegin];

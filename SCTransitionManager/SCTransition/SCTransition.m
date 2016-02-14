@@ -21,7 +21,7 @@ static const void *Transition = &Transition;
         return;
     }
     UIView *rootView = [self rootView:viewController];
-    SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView];
+    SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView isPush:NO];
     viewController.transitioningDelegate = transMgr;
     objc_setAssociatedObject(viewController, &Transition, transMgr, OBJC_ASSOCIATION_RETAIN);
     
@@ -42,7 +42,7 @@ static const void *Transition = &Transition;
     }
     UIView *rootView = [self rootView:viewController];
     
-    SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView sourceView:sourceView targetView:targetView];
+    SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView sourceView:sourceView targetView:targetView isPush:NO];
     
     viewController.transitioningDelegate = transMgr;
     objc_setAssociatedObject(viewController, &Transition, transMgr, OBJC_ASSOCIATION_RETAIN);
@@ -61,6 +61,53 @@ static const void *Transition = &Transition;
         [topViewController dismissViewControllerAnimated:animated completion:completion];
     }
 }
+
++ (void)pushViewController:(UIViewController *)viewController
+                  animated:(BOOL)animated {
+    if (viewController == nil) {
+        return;
+    }
+    UIView *rootView = [self rootView:viewController];
+    
+    UINavigationController *topViewController = (UINavigationController *)self.topViewController;
+    if ([topViewController isKindOfClass:[UINavigationController class]]) {
+        SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView isPush:YES];
+        topViewController.delegate = transMgr;
+        objc_setAssociatedObject(viewController, &Transition, transMgr, OBJC_ASSOCIATION_RETAIN);
+        [topViewController pushViewController:viewController animated:animated];
+    }
+}
+
++ (void)pushViewController:(UIViewController *)viewController
+                sourceView:(UIView *)sourceView
+                targetView:(UIView *)targetView
+                  animated:(BOOL)animated {
+    if (viewController == nil) {
+        return;
+    }
+    UIView *rootView = [self rootView:viewController];
+    
+    UINavigationController *topViewController = (UINavigationController *)self.topViewController;
+    if ([topViewController isKindOfClass:[UINavigationController class]]) {
+        SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView sourceView:sourceView targetView:targetView isPush:YES];
+        topViewController.delegate = transMgr;
+        objc_setAssociatedObject(viewController, &Transition, transMgr, OBJC_ASSOCIATION_RETAIN);
+        [topViewController pushViewController:viewController animated:animated];
+    }
+}
+
++ (UIViewController *)popViewControllerAnimated:(BOOL)animated {
+    UINavigationController *topViewController = (UINavigationController *)self.topViewController;
+    if (!topViewController.isBeingDismissed &&
+        !topViewController.isBeingPresented &&
+        [topViewController isKindOfClass:[UINavigationController class]]) {
+        return [topViewController popViewControllerAnimated:animated];
+    } else {
+        return nil;
+    }
+}
+
+#pragma mark - Private Method
 
 + (UIView *)rootView:(UIViewController *)viewController {
     if ([viewController isKindOfClass:[UINavigationController class]] &&

@@ -8,12 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SCTransitionManager : NSObject<UIViewControllerTransitioningDelegate>
+@interface SCTransitionManager : NSObject<UIViewControllerTransitioningDelegate,
+UINavigationControllerDelegate>
 
-- (instancetype)initWithView:(UIView *)view;
+- (instancetype)initWithView:(UIView *)view
+                      isPush:(BOOL)isPush;
 
 - (instancetype)initWithView:(UIView *)view
                   sourceView:(UIView *)sourceView
-                  targetView:(UIView *)targetView;
+                  targetView:(UIView *)targetView
+                      isPush:(BOOL)isPush;
 
 @end

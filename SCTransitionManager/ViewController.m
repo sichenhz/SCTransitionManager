@@ -24,7 +24,7 @@
     self.title = @"Main VC";
 }
 
-- (IBAction)present:(id)sender {
+- (IBAction)zoomPresent:(id)sender {
     SCViewController *vc = [[SCViewController alloc] init];
     vc.title = @"Second VC";
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
@@ -33,13 +33,27 @@
     [SCTransition presentViewController:nav sourceView:self.avatarView targetView:vc.avatarView animated:YES completion:nil];
 }
 
-- (IBAction)push:(id)sender {
+- (IBAction)normalPresent:(id)sender {
     SCViewController *vc = [[SCViewController alloc] init];
     vc.title = @"Second VC";
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
     vc.view.backgroundColor = [UIColor orangeColor];
     
     [SCTransition presentViewController:nav animated:YES completion:nil];
+}
+
+- (IBAction)zoomPush:(id)sender {
+    SCViewController *vc = [[SCViewController alloc] init];
+    vc.title = @"Second VC";
+    vc.view.backgroundColor = [UIColor orangeColor];
+    [SCTransition pushViewController:vc sourceView:self.avatarView targetView:vc.avatarView animated:YES];
+}
+
+- (IBAction)normalPush:(id)sender {
+    SCViewController *vc = [[SCViewController alloc] init];
+    vc.title = @"Second VC";
+    vc.view.backgroundColor = [UIColor orangeColor];
+    [SCTransition pushViewController:vc animated:YES];
 }
 
 @end
