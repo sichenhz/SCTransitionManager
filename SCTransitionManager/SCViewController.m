@@ -18,7 +18,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar.jpg"]];
-    imageView.frame = CGRectMake(0, 64, 320, 320);
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    imageView.frame = CGRectMake(0, 64, width, width);
     [self.view addSubview:imageView];
     _avatarView = imageView;
 }
