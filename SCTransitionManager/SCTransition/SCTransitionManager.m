@@ -62,8 +62,8 @@ typedef enum {
         _zoomDismissTrans.sourceView = sourceView;
         _zoomPresentTrans.targetView = targetView;
         _zoomDismissTrans.targetView = targetView;
-        _zoomPresentTrans.visibleView = visibleView;
-        _zoomDismissTrans.visibleView = visibleView;
+        _zoomPresentTrans.view = visibleView;
+        _zoomDismissTrans.view = visibleView;
     }
     return self;
 }

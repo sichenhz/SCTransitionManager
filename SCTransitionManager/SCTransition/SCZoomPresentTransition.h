@@ -23,6 +23,6 @@
 /**
  *  起始view，即ViewController.view
  */
-@property (nonatomic, weak) UIView *visibleView;
+@property (nonatomic, weak) UIView *view;
 
 @end

@@ -24,7 +24,7 @@
 /**
  *  目标view，即ViewController.view
  */
-@property (nonatomic, weak) UIView *visibleView;
+@property (nonatomic, weak) UIView *view;
 
 @property (nonatomic,strong) SCGestureTransitionBackContext *context;
 

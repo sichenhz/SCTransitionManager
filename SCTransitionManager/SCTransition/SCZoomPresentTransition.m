@@ -25,20 +25,20 @@
     
     [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     
-    CGRect originFrame = self.visibleView.frame;
-    UIView *sourceVCSnapshotView = self.visibleView.captureView;
+    CGRect originFrame = self.view.frame;
+    UIView *sourceVCSnapshotView = self.view.captureView;
     UIView *backgroundView = [[UIView alloc] initWithFrame:originFrame];
     backgroundView.backgroundColor = [UIColor colorWithRed:238.0/255.0
                                                      green:238.0/255.0
                                                       blue:238.0/255.0
                                                      alpha:1.0];
-    [self.visibleView.superview insertSubview:backgroundView aboveSubview:self.visibleView];
+    [self.view.superview insertSubview:backgroundView aboveSubview:self.view];
     sourceVCSnapshotView.frame = backgroundView.bounds;
     [backgroundView addSubview:sourceVCSnapshotView];
     
-    UIView *animationView = [[UIView alloc] initWithFrame:self.visibleView.frame];
+    UIView *animationView = [[UIView alloc] initWithFrame:self.view.frame];
     animationView.backgroundColor = [UIColor clearColor];
-    [self.visibleView.superview insertSubview:animationView aboveSubview:backgroundView];
+    [self.view.superview insertSubview:animationView aboveSubview:backgroundView];
     
     UIView *imageViewSourceVC = self.sourceView.captureView;
     CGRect frameInVCView = [self.sourceView convertRect:self.sourceView.bounds toView:animationView];
@@ -46,7 +46,7 @@
     imageViewSourceVC.contentMode = self.sourceView.contentMode;
     [animationView addSubview:imageViewSourceVC];
     
-    CGPoint centerobj = [self.sourceView convertPoint:CGPointMake(self.sourceView.bounds.size.width / 2, self.sourceView.bounds.size.height / 2) toView:self.visibleView];
+    CGPoint centerobj = [self.sourceView convertPoint:CGPointMake(self.sourceView.bounds.size.width / 2, self.sourceView.bounds.size.height / 2) toView:self.view];
     
     CGRect targetFrame = self.targetView.frame;
     CGPoint centerOfTargetFrame = CGPointMake(targetFrame.origin.x + targetFrame.size.width / 2, targetFrame.origin.y + targetFrame.size.height / 2);
