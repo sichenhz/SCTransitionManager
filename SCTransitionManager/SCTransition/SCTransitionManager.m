@@ -32,12 +32,12 @@ typedef enum {
 
 @implementation SCTransitionManager
 
-- (instancetype)initWithSwipeBackView:(UIView *)swipeBackView {
+- (instancetype)initWithView:(UIView *)view {
     if (self = [super init]) {
         _type = SCTransitionTypeNormal;
         _normalPresentTrans = [[SCNormalPresentTransition alloc] init];
         _normalDismissTrans = [[SCNormalDismissTransition alloc] init];
-        _interactionController = [[SCSwipeBackInteractionController alloc] initWithView:swipeBackView];
+        _interactionController = [[SCSwipeBackInteractionController alloc] initWithView:view];
         SCGestureTransitionBackContext *context = [[SCGestureTransitionBackContext alloc] init];
         _interactionController.context = context;
         _normalDismissTrans.context = context;
@@ -45,27 +45,25 @@ typedef enum {
     return self;
 }
 
-- (instancetype)initWithSwipeBackView:(UIView *)swipeBackView
-                                 view:(UIView *)view
-                           sourceView:(UIView *)sourceView
-                           targetView:(UIView *)targetView
-                          targetFrame:(CGRect)targetFrame
-                           completion:(void (^)())completion {
+- (instancetype)initWithView:(UIView *)view
+                  sourceView:(UIView *)sourceView
+                  targetView:(UIView *)targetView {
     if (self = [super init]) {
         _type = SCTransitionTypeZoom;
+        UIView *visibleView = self.visibleView;
         _zoomPresentTrans = [[SCZoomPresentTransition alloc] init];
-        _zoomPresentTrans.sourceView = sourceView;
-        _zoomPresentTrans.targetFrame = targetFrame;
-        _zoomPresentTrans.view = view;
         _zoomDismissTrans = [[SCZoomDismissTransition alloc] init];
-        _zoomDismissTrans.sourceView = targetView;
-        _zoomDismissTrans.view = swipeBackView;
-        _zoomDismissTrans.destinationView = view;
-        _zoomDismissTrans.targetView = sourceView;
-        _interactionController = [[SCSwipeBackInteractionController alloc] initWithView:swipeBackView];
+        _interactionController = [[SCSwipeBackInteractionController alloc] initWithView:view];
         SCGestureTransitionBackContext *context = [[SCGestureTransitionBackContext alloc] init];
         _interactionController.context = context;
         _zoomDismissTrans.context = context;
+
+        _zoomPresentTrans.sourceView = sourceView;
+        _zoomDismissTrans.sourceView = sourceView;
+        _zoomPresentTrans.targetView = targetView;
+        _zoomDismissTrans.targetView = targetView;
+        _zoomPresentTrans.visibleView = visibleView;
+        _zoomDismissTrans.visibleView = visibleView;
     }
     return self;
 }
@@ -92,4 +90,21 @@ typedef enum {
     return self.interactionController.interactionInProgress ? self.interactionController : nil;
 }
 
+#pragma mark - Private Method
+
+- (UIView *)visibleView {
+    UIViewController *topViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    while (YES) {
+        if ([topViewController presentedViewController] == nil) {
+            break;
+        }
+        topViewController = [topViewController presentedViewController];
+    }
+    if ([topViewController isKindOfClass:[UINavigationController class]] &&
+        ((UINavigationController *)topViewController).viewControllers.count) {
+        return ((UINavigationController *)topViewController).topViewController.view;
+    } else {
+        return topViewController.view;
+    }
+}
 @end

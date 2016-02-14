@@ -11,11 +11,11 @@
 @interface SCTransition : NSObject
 
 /**
- *  仿push的present效果，默认用根控制器下最后一个presentedViewController来调用
+ *  仿push效果，默认用根控制器下最后一个presentedViewController来调用
  *
  *  @param viewController   跳转的ViewController（可以是NavigationController，也可以是普通ViewController）
  *  @param animated         是否需要动画
- *  @param completion       完成后回调
+ *  @param completion       完成后的回调
  */
 + (void)presentViewController:(UIViewController *)viewController
                      animated:(BOOL)animated
@@ -25,21 +25,19 @@
  *  zoom效果，默认用根控制器下最后一个presentedViewController来调用
  *
  *  @param viewController   跳转的ViewController（可以是NavigationController，也可以是普通ViewController）
- *  @param view             当前ViewController.view
- *  @param sourceView       动画开始时，要进行放大的UIView对象，此对象应该是当前ViewController的子View
- *  @param targetView       动画结束时，已经放大的UIView对象，此对象应该是跳转后ViewController的子view
- *  @param targetFrame      动画结束时，targetView对象的frame，坐标系基于跳转后ViewController.view
- *  @param completion       完成后回调
+ *  @param sourceView       动画开始时，进行缩放动画的UIView对象
+ *  @param targetView       动画结束时，缩放动画完成的UIView对象
+ *  @param animated         是否需要动画
+ *  @param completion       完成后的回调
  */
 + (void)presentViewController:(UIViewController *)viewController
-                         view:(UIView *)view
                    sourceView:(UIView *)sourceView
                    targetView:(UIView *)targetView
-                  targetFrame:(CGRect)targetFrame
+                     animated:(BOOL)animated
                    completion:(void (^)())completion;
 
 /**
- *  dismiss时，会自动选择对应效果
+ *  dismiss时，会自动选择跳转时对应的效果
  *
  *  @param animated         是否需要动画
  *  @param completion       完成后回调

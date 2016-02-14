@@ -11,19 +11,18 @@
 @interface SCZoomPresentTransition : NSObject<UIViewControllerAnimatedTransitioning>
 
 /**
- *  动画开始时，进行放大的UIView对象
+ *  动画开始时，进行缩放动画的UIView对象
  */
 @property (nonatomic, weak) UIView *sourceView;
 
 /**
- *  起始view，即ViewController.view
+ *  动画结束时，缩放动画完成的UIView对象
  */
-@property (nonatomic, weak) UIView *view;
+@property (nonatomic, weak) UIView *targetView;
 
 /**
- *  动画结束时，sourceView对象的frame，注意：坐标系基于view
+ *  起始view，即ViewController.view
  */
-@property (nonatomic, assign) CGRect targetFrame;
-
+@property (nonatomic, weak) UIView *visibleView;
 
 @end

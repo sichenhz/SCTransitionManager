@@ -22,19 +22,19 @@
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     [transitionContext.containerView addSubview:toViewController.view];
     [transitionContext.containerView sendSubviewToBack:toViewController.view];
-    UIView *sourceView = _sourceView.captureView;
-    UIView *animationView = [[UIView alloc] initWithFrame:_destinationView.frame];
+    UIView *sourceView = self.targetView.captureView;
+    UIView *animationView = [[UIView alloc] initWithFrame:self.visibleView.frame];
     animationView.backgroundColor = [UIColor clearColor];
-    [_destinationView.superview insertSubview:animationView aboveSubview:_destinationView];
+    [self.visibleView.superview insertSubview:animationView aboveSubview:self.visibleView];
     [animationView addSubview:sourceView];
-    UIImage *layerImage = _destinationView.captureLayer;
+    UIImage *layerImage = self.visibleView.captureLayer;
     UIView *destinationImageView = [[UIImageView alloc] initWithImage:layerImage];
-    UIView *whiteBgView = [[UIView alloc] initWithFrame:_destinationView.bounds];
+    UIView *whiteBgView = [[UIView alloc] initWithFrame:self.visibleView.bounds];
     whiteBgView.backgroundColor = [UIColor whiteColor];
-    [_destinationView addSubview:whiteBgView];
+    [self.visibleView addSubview:whiteBgView];
     destinationImageView.frame = whiteBgView.bounds;
     [whiteBgView addSubview:destinationImageView];
-    sourceView.frame = _sourceView.frame;
+    sourceView.frame = self.targetView.frame;
 
     UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *sourceVC = nil;
@@ -44,15 +44,15 @@
         sourceVC = fromViewController;
     }
     
-    CGPoint centerOfDestinationView =  [_targetView convertPoint:CGPointMake(_targetView.frame.size.width/2, _targetView.frame.size.height/2) toView:_destinationView];
+    CGPoint centerOfDestinationView =  [self.sourceView convertPoint:CGPointMake(self.sourceView.frame.size.width/2, self.sourceView.frame.size.height/2) toView:self.visibleView];
     
-    CGPoint centerOfSourceFrame = CGPointMake(_sourceView.frame.origin.x+_sourceView.frame.size.width/2, _sourceView.frame.origin.y+_sourceView.frame.size.height/2);
+    CGPoint centerOfSourceFrame = CGPointMake(self.targetView.frame.origin.x + self.targetView.frame.size.width/2, self.targetView.frame.origin.y + self.targetView.frame.size.height / 2);
     
     CGFloat deltaXToSourceFrameCenter = centerOfSourceFrame.x - centerOfDestinationView.x;
     CGFloat deltaYToSourceFrameCenter = centerOfSourceFrame.y - centerOfDestinationView.y;
     
     
-    CGFloat xScale = _sourceView.frame.size.width/_targetView.frame.size.width;
+    CGFloat xScale = self.targetView.frame.size.width / self.sourceView.frame.size.width;
     CGFloat yScale = xScale;
     CGAffineTransform trans = CGAffineTransformConcat(CGAffineTransformMakeTranslation(deltaXToSourceFrameCenter, deltaYToSourceFrameCenter), CGAffineTransformMakeScale(xScale,yScale)) ;
     
@@ -65,7 +65,7 @@
     void (^animationBlock)() = ^(){
         destinationImageView.transform = CGAffineTransformIdentity;
         destinationImageView.alpha = 1.0;
-        sourceView.frame = [_targetView convertRect:_targetView.bounds toView:animationView];
+        sourceView.frame = [self.sourceView convertRect:self.sourceView.bounds toView:animationView];
     };
     
     void (^animationCompleteBlock)(BOOL finished) = ^(BOOL finished){

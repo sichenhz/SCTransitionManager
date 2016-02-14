@@ -20,8 +20,8 @@ static const void *Transition = &Transition;
     if (viewController == nil) {
         return;
     }
-    UIView *swipeBackView = [self swipeBackView:viewController];
-    SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithSwipeBackView:swipeBackView];
+    UIView *rootView = [self rootView:viewController];
+    SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView];
     viewController.transitioningDelegate = transMgr;
     objc_setAssociatedObject(viewController, &Transition, transMgr, OBJC_ASSOCIATION_RETAIN);
     
@@ -33,16 +33,16 @@ static const void *Transition = &Transition;
 }
 
 + (void)presentViewController:(UIViewController *)viewController
-                         view:(UIView *)view
                    sourceView:(UIView *)sourceView
                    targetView:(UIView *)targetView
-                  targetFrame:(CGRect)targetFrame
+                     animated:(BOOL)animated
                    completion:(void (^)())completion {
     if (viewController == nil) {
         return;
     }
-    UIView *swipeBackView = [self swipeBackView:viewController];
-    SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithSwipeBackView:swipeBackView view:view sourceView:sourceView targetView:targetView targetFrame:targetFrame completion:nil];
+    UIView *rootView = [self rootView:viewController];
+    
+    SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView sourceView:sourceView targetView:targetView];
     
     viewController.transitioningDelegate = transMgr;
     objc_setAssociatedObject(viewController, &Transition, transMgr, OBJC_ASSOCIATION_RETAIN);
@@ -50,7 +50,7 @@ static const void *Transition = &Transition;
     UIViewController *topViewController = self.topViewController;
     if (!topViewController.isBeingDismissed &&
         !topViewController.isBeingPresented) {
-        [topViewController presentViewController:viewController animated:YES completion:nil];
+        [topViewController presentViewController:viewController animated:animated completion:completion];
     }
 }
 
@@ -62,7 +62,7 @@ static const void *Transition = &Transition;
     }
 }
 
-+ (UIView *)swipeBackView:(UIViewController *)viewController {
++ (UIView *)rootView:(UIViewController *)viewController {
     if ([viewController isKindOfClass:[UINavigationController class]] &&
         ((UINavigationController *)viewController).viewControllers.count) {
         UIViewController *rootVC = ((UINavigationController *)viewController).viewControllers.firstObject;

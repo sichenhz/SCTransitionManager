@@ -10,13 +10,10 @@
 
 @interface SCTransitionManager : NSObject<UIViewControllerTransitioningDelegate>
 
-- (instancetype)initWithSwipeBackView:(UIView *)swipeBackView;
+- (instancetype)initWithView:(UIView *)view;
 
-- (instancetype)initWithSwipeBackView:(UIView *)swipeBackView
-                                 view:(UIView *)view
-                           sourceView:(UIView *)sourceView
-                           targetView:(UIView *)targetView
-                          targetFrame:(CGRect)targetFrame
-                           completion:(void (^)())completion;
+- (instancetype)initWithView:(UIView *)view
+                  sourceView:(UIView *)sourceView
+                  targetView:(UIView *)targetView;
 
 @end

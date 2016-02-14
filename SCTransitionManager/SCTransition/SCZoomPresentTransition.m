@@ -25,30 +25,31 @@
     
     [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     
-    CGRect originFrame = _view.frame;
-    UIView *sourceVCSnapshotView = _view.captureView;
+    CGRect originFrame = self.visibleView.frame;
+    UIView *sourceVCSnapshotView = self.visibleView.captureView;
     UIView *backgroundView = [[UIView alloc] initWithFrame:originFrame];
     backgroundView.backgroundColor = [UIColor colorWithRed:238.0/255.0
                                                      green:238.0/255.0
                                                       blue:238.0/255.0
                                                      alpha:1.0];
-    [_view.superview insertSubview:backgroundView aboveSubview:_view];
+    [self.visibleView.superview insertSubview:backgroundView aboveSubview:self.visibleView];
     sourceVCSnapshotView.frame = backgroundView.bounds;
     [backgroundView addSubview:sourceVCSnapshotView];
     
-    UIView *animationView = [[UIView alloc] initWithFrame:_view.frame];
+    UIView *animationView = [[UIView alloc] initWithFrame:self.visibleView.frame];
     animationView.backgroundColor = [UIColor clearColor];
-    [_view.superview insertSubview:animationView aboveSubview:backgroundView];
+    [self.visibleView.superview insertSubview:animationView aboveSubview:backgroundView];
     
-    UIView *imageViewSourceVC = [_sourceView captureView];
-    CGRect frameInVCView = [_sourceView convertRect:_sourceView.bounds toView:animationView];
+    UIView *imageViewSourceVC = self.sourceView.captureView;
+    CGRect frameInVCView = [self.sourceView convertRect:self.sourceView.bounds toView:animationView];
     imageViewSourceVC.frame = frameInVCView;
-    imageViewSourceVC.contentMode = _sourceView.contentMode;
+    imageViewSourceVC.contentMode = self.sourceView.contentMode;
     [animationView addSubview:imageViewSourceVC];
     
-    CGPoint centerobj = [_sourceView convertPoint:CGPointMake(_sourceView.bounds.size.width / 2, _sourceView.bounds.size.height / 2) toView:_view];
+    CGPoint centerobj = [self.sourceView convertPoint:CGPointMake(self.sourceView.bounds.size.width / 2, self.sourceView.bounds.size.height / 2) toView:self.visibleView];
     
-    CGPoint centerOfTargetFrame = CGPointMake(self.targetFrame.origin.x + self.targetFrame.size.width / 2, self.targetFrame.origin.y + self.targetFrame.size.height / 2);
+    CGRect targetFrame = self.targetView.frame;
+    CGPoint centerOfTargetFrame = CGPointMake(targetFrame.origin.x + targetFrame.size.width / 2, targetFrame.origin.y + targetFrame.size.height / 2);
     
     CGFloat deltaXToTargetFrameCenter = centerOfTargetFrame.x - centerobj.x;
     CGFloat deltaYToTargetFrameCenter = centerOfTargetFrame.y - centerobj.y;
@@ -59,11 +60,11 @@
     [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
         sourceVCSnapshotView.alpha = 0.0;
         
-        CGFloat xScale = self.targetFrame.size.width / _sourceView.bounds.size.width;
+        CGFloat xScale = targetFrame.size.width / self.sourceView.bounds.size.width;
         CGFloat yScale = xScale;
         sourceVCSnapshotView.transform = CGAffineTransformConcat(CGAffineTransformMakeTranslation(deltaXToTargetFrameCenter, deltaYToTargetFrameCenter), CGAffineTransformMakeScale(xScale,yScale)) ;
         
-        imageViewSourceVC.frame = CGRectMake(self.targetFrame.origin.x, self.targetFrame.origin.y, imageViewSourceVC.frame.size.width * xScale, imageViewSourceVC.frame.size.height * yScale);
+        imageViewSourceVC.frame = CGRectMake(targetFrame.origin.x, targetFrame.origin.y, imageViewSourceVC.frame.size.width * xScale, imageViewSourceVC.frame.size.height * yScale);
         
     } completion:^(BOOL finished) {
         UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
