@@ -13,15 +13,10 @@
 #import "SCZoomDismissTransition.h"
 #import "SCGestureTransitionBackContext.h"
 #import "SCSwipeBackInteractionController.h"
-
-typedef enum {
-    SCTransitionTypeNormal,
-    SCTransitionTypeZoom
-} SCTransitionType;
+#import <objc/runtime.h>
 
 @interface SCTransitionManager()
 
-@property (nonatomic, assign) SCTransitionType type;
 @property (nonatomic, strong) SCNormalPresentTransition *normalPresentTrans;
 @property (nonatomic, strong) SCNormalDismissTransition *normalDismissTrans;
 @property (nonatomic, strong) SCZoomPresentTransition *zoomPresentTrans;
@@ -73,7 +68,8 @@ typedef enum {
 
 #pragma mark - UIViewControllerTransitioningDelegate
 
-- (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+- (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                   presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
     if (self.type == SCTransitionTypeZoom) {
         return self.zoomPresentTrans;
     } else {
@@ -95,10 +91,10 @@ typedef enum {
 
 #pragma mark - UINavigationControllerDelegate
 
-- (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
-                                  animationControllerForOperation:(UINavigationControllerOperation)operation
-                                               fromViewController:(UIViewController *)fromVC
-                                                 toViewController:(UIViewController *)toVC {
+- (nullable id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
+                                           animationControllerForOperation:(UINavigationControllerOperation)operation
+                                                        fromViewController:(UIViewController *)fromVC
+                                                          toViewController:(UIViewController *)toVC {
     if (operation == UINavigationControllerOperationPush) {
         if (self.type == SCTransitionTypeZoom) {
             return self.zoomPresentTrans;
@@ -118,6 +114,15 @@ typedef enum {
 - (nullable id <UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController
                                    interactionControllerForAnimationController:(id <UIViewControllerAnimatedTransitioning>) animationController {
     return self.interactionController.interactionInProgress ? self.interactionController : nil;
+}
+
+- (void)navigationController:(UINavigationController *)navigationController
+       didShowViewController:(UIViewController *)viewController
+                    animated:(BOOL)animated {
+    SCTransitionManager *transMgr = objc_getAssociatedObject(viewController, TransitionKey);
+    if (![transMgr isEqual:navigationController.delegate]) {
+        navigationController.delegate = transMgr;
+    }
 }
 
 #pragma mark - Private Method

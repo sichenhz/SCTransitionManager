@@ -11,7 +11,7 @@
 @interface SCTransition : NSObject
 
 /**
- *  normal效果，默认用根控制器下最后一个presentedViewController来调用
+ *  调用该方法present会使用模仿NavigationController的push效果
  *
  *  @param viewController   跳转的ViewController（可以是NavigationController，也可以是普通ViewController）
  *  @param animated         是否需要动画
@@ -22,7 +22,7 @@
                    completion:(void (^)())completion;
 
 /**
- *  zoom效果，默认用根控制器下最后一个presentedViewController来调用
+ *  调用该方法present会使用缩放效果，由sourceView缩放至targetView
  *
  *  @param viewController   跳转的ViewController（可以是NavigationController，也可以是普通ViewController）
  *  @param sourceView       动画开始时，进行缩放动画的UIView对象
@@ -37,7 +37,7 @@
                    completion:(void (^)())completion;
 
 /**
- *  dismiss时，会自动选择跳转时对应的效果
+ *  调用该方法dismiss时，会自动选择present时对应的效果
  *
  *  @param animated         是否需要动画
  *  @param completion       完成后回调
@@ -46,7 +46,27 @@
                            completion:(void (^)())completion;
 
 /**
- *  normal效果，默认用根控制器下最后一个presentedViewController来调用
+ *  dismiss至栈内特定的ViewController，该方法无法使用缩放效果
+ *
+ *  @param viewController   dissmis至某个栈内的控制器
+ *  @param animated         是否需要动画
+ *  @param completion       完成后回调
+ */
++ (void)dismissToViewController:(UIViewController *)viewController
+                       animated:(BOOL)animated
+                     completion:(void (^)())completion;
+
+/**
+ *  dismiss至RootViewController，该方法无法使用缩放效果
+ *
+ *  @param animated         是否需要动画
+ *  @param completion       完成后回调
+ */
++ (void)dismissToRootViewControllerAnimated:(BOOL)animated
+                                 completion:(void (^)())completion;
+
+/**
+ *  调用该方法push会使用默认的效果
  *
  *  @param viewController   跳转的ViewController（可以是NavigationController，也可以是普通ViewController）
  *  @param animated         是否需要动画
@@ -55,9 +75,9 @@
                   animated:(BOOL)animated;
 
 /**
- *  zoom效果，默认用根控制器下最后一个presentedViewController来调用
+ *  调用该方法push会使用缩放效果，由sourceView缩放至targetView
  *
- *  @param viewController   跳转的ViewController（可以是NavigationController，也可以是普通ViewController）
+ *  @param viewController   跳转的ViewController
  *  @param sourceView       动画开始时，进行缩放动画的UIView对象
  *  @param targetView       动画结束时，缩放动画完成的UIView对象
  *  @param animated         是否需要动画
@@ -68,10 +88,26 @@
                   animated:(BOOL)animated;
 
 /**
- *  pop时，会自动选择跳转时对应的效果
+ *  调用该方法pop时，会自动选择push时对应的效果
  *
  *  @param animated         是否需要动画
  */
 + (UIViewController *)popViewControllerAnimated:(BOOL)animated;
+
+/**
+ *  pop至栈内特定的ViewController，该方法无法使用缩放效果
+ *
+ *  @param viewController   pop至某个栈内的控制器
+ *  @param animated         是否需要动画
+ */
++ (NSArray *)popToViewController:(UIViewController *)viewController
+                        animated:(BOOL)animated;
+
+/**
+ *  pop至RootViewController，该方法无法使用缩放效果
+ *
+ *  @param animated         是否需要动画
+ */
++ (NSArray *)popToRootViewControllerAnimated:(BOOL)animated;
 
 @end

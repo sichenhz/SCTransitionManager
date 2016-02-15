@@ -12,8 +12,6 @@
 
 @interface ViewController ()
 
-@property (weak, nonatomic) IBOutlet UIImageView *avatarView;
-
 @end
 
 @implementation ViewController
@@ -22,6 +20,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.title = @"Main VC";
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar.jpg"]];
+    imageView.frame = CGRectMake(0, 64, 50, 50);
+    [self.view addSubview:imageView];
+    _avatarView = imageView;
 }
 
 - (IBAction)zoomPresent:(id)sender {

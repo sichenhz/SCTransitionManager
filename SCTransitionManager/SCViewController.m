@@ -8,7 +8,7 @@
 
 #import "SCViewController.h"
 #import "SCSwipeBackInteractionController.h"
-
+#import "SCTransition.h"
 @interface SCViewController()<SCGestureBackInteractionDelegate>
 
 @end

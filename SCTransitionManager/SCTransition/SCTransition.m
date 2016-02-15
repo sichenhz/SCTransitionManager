@@ -9,10 +9,10 @@
 #import "SCTransition.h"
 #import "SCTransitionManager.h"
 #import <objc/runtime.h>
+#import "UIView+Capture.h"
+#import "SCTransitionManager.h"
 
 @implementation SCTransition
-
-static const void *Transition = &Transition;
 
 + (void)presentViewController:(UIViewController *)viewController
                      animated:(BOOL)animated
@@ -23,7 +23,7 @@ static const void *Transition = &Transition;
     UIView *rootView = [self rootView:viewController];
     SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView isPush:NO];
     viewController.transitioningDelegate = transMgr;
-    objc_setAssociatedObject(viewController, &Transition, transMgr, OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(viewController, TransitionKey, transMgr, OBJC_ASSOCIATION_RETAIN);
     
     UIViewController *topViewController = self.topViewController;
     if (!topViewController.isBeingDismissed &&
@@ -45,7 +45,7 @@ static const void *Transition = &Transition;
     SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView sourceView:sourceView targetView:targetView isPush:NO];
     
     viewController.transitioningDelegate = transMgr;
-    objc_setAssociatedObject(viewController, &Transition, transMgr, OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(viewController, TransitionKey, transMgr, OBJC_ASSOCIATION_RETAIN);
     
     UIViewController *topViewController = self.topViewController;
     if (!topViewController.isBeingDismissed &&
@@ -58,7 +58,47 @@ static const void *Transition = &Transition;
     UIViewController *topViewController = self.topViewController;
     if (!topViewController.isBeingDismissed &&
         !topViewController.isBeingPresented) {
-        [topViewController dismissViewControllerAnimated:animated completion:completion];
+        [topViewController.presentingViewController dismissViewControllerAnimated:animated completion:completion];
+    }
+}
+
++ (void)dismissToViewController:(UIViewController *)viewController
+                       animated:(BOOL)animated
+                     completion:(void (^)())completion{
+    UIViewController *topViewController = self.topViewController;
+    UIViewController *vcToDismiss = viewController.presentedViewController;
+    
+    if (vcToDismiss != nil &&
+        !vcToDismiss.isBeingDismissed &&
+        !vcToDismiss.isBeingPresented) {
+        vcToDismiss.view = topViewController.view.captureView;
+        SCTransitionManager *transMgr = (SCTransitionManager *)vcToDismiss.transitioningDelegate;
+        if (transMgr.type == SCTransitionTypeZoom) {
+            SCTransitionManager *newTransMgr = [[SCTransitionManager alloc] initWithView:nil isPush:NO];
+            vcToDismiss.transitioningDelegate = newTransMgr;
+        }
+        [viewController dismissViewControllerAnimated:animated completion:completion];
+    }
+}
+
++ (void)dismissToRootViewControllerAnimated:(BOOL)animated
+                                 completion:(void (^)())completion {
+    UIViewController *topViewController = self.topViewController;
+    UIViewController *rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    UIViewController *vcToDismiss = rootVC.presentedViewController;
+
+    if (vcToDismiss != nil &&
+        !vcToDismiss.isBeingDismissed &&
+        !vcToDismiss.isBeingPresented) {
+        if (![vcToDismiss isEqual:topViewController]) {
+            vcToDismiss.view = topViewController.view.captureView;
+            SCTransitionManager *transMgr = (SCTransitionManager *)vcToDismiss.transitioningDelegate;
+            if (transMgr.type == SCTransitionTypeZoom) {
+                SCTransitionManager *newTransMgr = [[SCTransitionManager alloc] initWithView:nil isPush:NO];
+                vcToDismiss.transitioningDelegate = newTransMgr;
+            }
+        }
+        [rootVC dismissViewControllerAnimated:animated completion:completion];
     }
 }
 
@@ -73,7 +113,7 @@ static const void *Transition = &Transition;
     if ([topViewController isKindOfClass:[UINavigationController class]]) {
         SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView isPush:YES];
         topViewController.delegate = transMgr;
-        objc_setAssociatedObject(viewController, &Transition, transMgr, OBJC_ASSOCIATION_RETAIN);
+        objc_setAssociatedObject(viewController, TransitionKey, transMgr, OBJC_ASSOCIATION_RETAIN);
         [topViewController pushViewController:viewController animated:animated];
     }
 }
@@ -91,17 +131,47 @@ static const void *Transition = &Transition;
     if ([topViewController isKindOfClass:[UINavigationController class]]) {
         SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView sourceView:sourceView targetView:targetView isPush:YES];
         topViewController.delegate = transMgr;
-        objc_setAssociatedObject(viewController, &Transition, transMgr, OBJC_ASSOCIATION_RETAIN);
+        objc_setAssociatedObject(viewController, TransitionKey, transMgr, OBJC_ASSOCIATION_RETAIN);
         [topViewController pushViewController:viewController animated:animated];
     }
 }
 
 + (UIViewController *)popViewControllerAnimated:(BOOL)animated {
     UINavigationController *topViewController = (UINavigationController *)self.topViewController;
-    if (!topViewController.isBeingDismissed &&
-        !topViewController.isBeingPresented &&
-        [topViewController isKindOfClass:[UINavigationController class]]) {
+    if ([topViewController isKindOfClass:[UINavigationController class]] &&
+        topViewController.viewControllers.count > 1) {
         return [topViewController popViewControllerAnimated:animated];
+    } else {
+        return nil;
+    }
+}
+
+
++ (NSArray *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    UINavigationController *topViewController = (UINavigationController *)self.topViewController;
+    if ([topViewController isKindOfClass:[UINavigationController class]] &&
+        topViewController.viewControllers.count > 1) {
+        SCTransitionManager *transMgr = (SCTransitionManager *)topViewController.delegate;
+        if (transMgr.type == SCTransitionTypeZoom) {
+            SCTransitionManager *newTransMgr = [[SCTransitionManager alloc] initWithView:nil isPush:YES];
+            topViewController.delegate = newTransMgr;
+        }
+        return [topViewController popToViewController:viewController animated:animated];
+    } else {
+        return nil;
+    }
+}
+
++ (NSArray *)popToRootViewControllerAnimated:(BOOL)animated {
+    UINavigationController *topViewController = (UINavigationController *)self.topViewController;
+    if ([topViewController isKindOfClass:[UINavigationController class]] &&
+        topViewController.viewControllers.count > 1) {
+        SCTransitionManager *transMgr = (SCTransitionManager *)topViewController.delegate;
+        if (transMgr.type == SCTransitionTypeZoom) {
+            SCTransitionManager *newTransMgr = [[SCTransitionManager alloc] initWithView:nil isPush:YES];
+            topViewController.delegate = newTransMgr;
+        }
+        return [topViewController popToRootViewControllerAnimated:animated];
     } else {
         return nil;
     }
