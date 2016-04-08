@@ -55,6 +55,10 @@
 
 #pragma mark - Present
 
++ (void)presentViewController:(UIViewController *)viewController {
+    [self presentViewController:viewController animated:YES completion:nil];
+}
+
 + (void)presentViewController:(UIViewController *)viewController
                      animated:(BOOL)animated
                    completion:(void (^)())completion {
@@ -148,6 +152,10 @@
 }
 
 #pragma mark - Push
+
++ (void)pushViewController:(UIViewController *)viewController {
+    [self pushViewController:viewController animated:YES completion:nil];
+}
 
 + (void)pushViewController:(UIViewController *)viewController
                   animated:(BOOL)animated

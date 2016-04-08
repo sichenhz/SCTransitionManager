@@ -34,6 +34,13 @@
  *  调用该方法present会使用模仿NavigationController的push效果
  *
  *  @param viewController   跳转的ViewController（可以是NavigationController，也可以是普通ViewController）
+ */
++ (void)presentViewController:(UIViewController *)viewController;
+
+/**
+ *  调用该方法present会使用模仿NavigationController的push效果
+ *
+ *  @param viewController   跳转的ViewController（可以是NavigationController，也可以是普通ViewController）
  *  @param animated         是否需要动画
  *  @param completion       完成后的回调
  */
@@ -86,7 +93,14 @@
 /**
  *  调用该方法push会使用默认的效果
  *
- *  @param viewController   跳转的ViewController（可以是NavigationController，也可以是普通ViewController）
+ *  @param viewController   跳转的ViewController
+ */
++ (void)pushViewController:(UIViewController *)viewController;
+
+/**
+ *  调用该方法push会使用默认的效果
+ *
+ *  @param viewController   跳转的ViewController
  *  @param animated         是否需要动画
  */
 + (void)pushViewController:(UIViewController *)viewController
