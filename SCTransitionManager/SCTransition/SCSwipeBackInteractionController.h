@@ -36,7 +36,7 @@
  */
 - (void)gestureBackCancel;
 /**
- *  禁止手势返回
+ *  禁止手势返回，默认为NO
  *
  *  @return YES 禁止； NO 开启；
  */
@@ -57,8 +57,6 @@
 @property (nonatomic, assign) BOOL interactionInProgress;
 
 @property (nonatomic, strong) SCGestureTransitionBackContext *context;
-
-@property (nonatomic, copy) void(^didDismiss)();
 
 /**
  *  @param 要支持手势划回的view

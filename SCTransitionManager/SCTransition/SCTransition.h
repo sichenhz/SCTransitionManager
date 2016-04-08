@@ -11,16 +11,6 @@
 @interface SCTransition : NSObject
 
 /**
- *  dismiss完成时调用（包括dismiss方法和手势划回）
- */
-+ (void)setDismissCompletion:(void (^)())completion;
-
-/**
- *  pop完成时调用（包括pop方法和手势划回、不包括点击返回按钮）
- */
-+ (void)setPopCompletion:(void (^)())completion;
-
-/**
  *  调用该方法present会使用模仿NavigationController的push效果
  *
  *  @param viewController   跳转的ViewController（可以是NavigationController，也可以是普通ViewController）
@@ -58,7 +48,8 @@
  *
  *  @param animated         是否需要动画
  */
-+ (void)dismissViewControllerAnimated:(BOOL)animated;
++ (void)dismissViewControllerAnimated:(BOOL)animated
+                           completion:(void (^)())completion;
 
 /**
  *  dismiss至栈内特定的ViewController
@@ -116,7 +107,8 @@
  *
  *  @param animated         是否需要动画
  */
-+ (UIViewController *)popViewControllerAnimated:(BOOL)animated;
++ (UIViewController *)popViewControllerAnimated:(BOOL)animated
+                                     completion:(void (^)())completion;
 
 /**
  *  pop至栈内特定的ViewController

@@ -13,27 +13,6 @@
 
 @implementation SCTransition
 
-#pragma mark - Setter
-
-+ (void)setDismissCompletion:(void (^)())completion {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIViewController *vcToDismiss = self.topViewController;
-        SCTransitionManager *transMgr = (SCTransitionManager *)vcToDismiss.transitioningDelegate;
-        transMgr.didDismiss = completion ? : nil;
-    });
-}
-
-+ (void)setPopCompletion:(void (^)())completion {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UINavigationController *topViewController = (UINavigationController *)self.topViewController;
-        if ([topViewController isKindOfClass:[UINavigationController class]] &&
-            topViewController.viewControllers.count > 1) {
-            SCTransitionManager *transMgr = (SCTransitionManager *)topViewController.delegate;
-            transMgr.didPop = completion ? : nil;
-        }
-    });
-}
-
 #pragma mark - Present
 
 + (void)presentViewController:(UIViewController *)viewController {
@@ -82,12 +61,12 @@
 
 #pragma mark - Dismiss
 
-+ (void)dismissViewControllerAnimated:(BOOL)animated {
++ (void)dismissViewControllerAnimated:(BOOL)animated
+                           completion:(void (^)())completion {
     UIViewController *vcToDismiss = self.topViewController;
-    SCTransitionManager *transMgr = (SCTransitionManager *)vcToDismiss.transitioningDelegate;
     if (!vcToDismiss.isBeingDismissed &&
         !vcToDismiss.isBeingPresented) {
-        [vcToDismiss dismissViewControllerAnimated:animated completion:transMgr.didDismiss];
+        [vcToDismiss dismissViewControllerAnimated:animated completion:completion];
     }
 }
 
@@ -138,7 +117,7 @@
     UINavigationController *topViewController = (UINavigationController *)self.topViewController;
     if ([topViewController isKindOfClass:[UINavigationController class]]) {
         SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView isPush:YES];
-        transMgr.didPush = completion ? : nil;
+        transMgr.didPush = completion;
         topViewController.delegate = transMgr;
         objc_setAssociatedObject(viewController, TransitionKey, transMgr, OBJC_ASSOCIATION_RETAIN);
         [topViewController pushViewController:viewController animated:animated];
@@ -158,7 +137,7 @@
     UINavigationController *topViewController = (UINavigationController *)self.topViewController;
     if ([topViewController isKindOfClass:[UINavigationController class]]) {
         SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView sourceView:sourceView targetView:targetView isPush:YES];
-        transMgr.didPush = completion ? : nil;
+        transMgr.didPush = completion;
         topViewController.delegate = transMgr;
         objc_setAssociatedObject(viewController, TransitionKey, transMgr, OBJC_ASSOCIATION_RETAIN);
         [topViewController pushViewController:viewController animated:animated];
@@ -167,12 +146,13 @@
 
 #pragma mark - Pop
 
-+ (UIViewController *)popViewControllerAnimated:(BOOL)animated {
++ (UIViewController *)popViewControllerAnimated:(BOOL)animated
+                                     completion:(void (^)())completion {
     UINavigationController *topViewController = (UINavigationController *)self.topViewController;
     if ([topViewController isKindOfClass:[UINavigationController class]] &&
         topViewController.viewControllers.count > 1) {
         SCTransitionManager *transMgr = (SCTransitionManager *)topViewController.delegate;
-        transMgr.didPop = transMgr.didPop ? : nil;
+        transMgr.didPop = completion;
         return [topViewController popViewControllerAnimated:animated];
     }
     return nil;
@@ -185,7 +165,7 @@
     if ([topViewController isKindOfClass:[UINavigationController class]] &&
         topViewController.viewControllers.count > 1) {
         SCTransitionManager *transMgr = (SCTransitionManager *)topViewController.delegate;
-        transMgr.didPop = completion ? : nil;
+        transMgr.didPop = completion;
         return [topViewController popToViewController:viewController animated:animated];
     }
     return nil;
@@ -197,7 +177,7 @@
     if ([topViewController isKindOfClass:[UINavigationController class]] &&
         topViewController.viewControllers.count > 1) {
         SCTransitionManager *transMgr = (SCTransitionManager *)topViewController.delegate;
-        transMgr.didPop = completion ? : nil;
+        transMgr.didPop = completion;
         return [topViewController popToRootViewControllerAnimated:animated];
     }
     return nil;

@@ -74,10 +74,10 @@
 			children = (
 				258AE5C41C6A2F4600B86BC6 /* SCTransition.h */,
 				258AE5C51C6A2F4600B86BC6 /* SCTransition.m */,
-				258AE5C61C6A2F4600B86BC6 /* SCTransitionManager.h */,
-				258AE5C71C6A2F4600B86BC6 /* SCTransitionManager.m */,
 				258AE5C21C6A2F4600B86BC6 /* SCSwipeBackInteractionController.h */,
 				258AE5C31C6A2F4600B86BC6 /* SCSwipeBackInteractionController.m */,
+				258AE5C61C6A2F4600B86BC6 /* SCTransitionManager.h */,
+				258AE5C71C6A2F4600B86BC6 /* SCTransitionManager.m */,
 				258AE5C01C6A2F4600B86BC6 /* SCNormalPresentTransition.h */,
 				258AE5C11C6A2F4600B86BC6 /* SCNormalPresentTransition.m */,
 				258AE5BE1C6A2F4600B86BC6 /* SCNormalDismissTransition.h */,

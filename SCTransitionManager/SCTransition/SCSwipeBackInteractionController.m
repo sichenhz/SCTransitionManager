@@ -113,9 +113,6 @@
             } else {
                 if (_gestureBackInteractionDelegate && [_gestureBackInteractionDelegate respondsToSelector:@selector(gestureBackFinish)]) {
                     [_gestureBackInteractionDelegate gestureBackFinish];
-                    if (self.didDismiss) {
-                        self.didDismiss();
-                    }
                 }
                 [self finishInteractiveTransition];
             }

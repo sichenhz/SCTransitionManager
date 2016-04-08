@@ -66,11 +66,6 @@
     return self;
 }
 
-- (void)setDidDismiss:(void (^)())didDismiss {
-    _didDismiss = didDismiss;
-    self.interactionController.didDismiss = didDismiss;
-}
-
 #pragma mark - UIViewControllerTransitioningDelegate
 
 - (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented

@@ -26,29 +26,25 @@
     UIBarButtonItem *dismissItem = [[UIBarButtonItem alloc] initWithTitle:@"dismiss" style:UIBarButtonItemStylePlain target:self action:@selector(dismissHandler:)];
     UIBarButtonItem *popItem = [[UIBarButtonItem alloc] initWithTitle:@"pop" style:UIBarButtonItemStylePlain target:self action:@selector(popHandler:)];
     self.navigationItem.leftBarButtonItems = @[dismissItem, popItem];
-    
-    [SCTransition setPopCompletion:^{
-        NSLog(@"pop done!!!");
-    }];
-    
-    [SCTransition setDismissCompletion:^{
+}
+
+- (void)dismissHandler:(id)sender {
+    [SCTransition dismissViewControllerAnimated:YES completion:^{
         NSLog(@"dismiss done!!!");
     }];
 }
 
-- (void)dismissHandler:(id)sender {
-    [SCTransition dismissViewControllerAnimated:YES];
-}
-
 - (void)popHandler:(id)sender {
-    [SCTransition popViewControllerAnimated:YES];
+    [SCTransition popViewControllerAnimated:YES completion:^{
+        NSLog(@"pop done!!!");
+    }];
 }
 
 #pragma mark - SCGestureBackInteractionDelegate
 
-- (BOOL)disableGuesture {
-    return NO;
-}
+//- (BOOL)disableGuesture {
+//    return YES;
+//}
 
 - (void)gestureBackBegin {
     NSLog(@"手势开始");
@@ -63,7 +59,7 @@
 }
 
 //- (void)fireGuestureBack {
-//    
+//    NSLog(@"自定义手势行为");
 //}
 
 @end
