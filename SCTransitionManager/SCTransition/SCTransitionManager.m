@@ -15,7 +15,7 @@
 #import "SCSwipeBackInteractionController.h"
 #import <objc/runtime.h>
 
-@interface SCTransitionManager()
+@interface SCTransitionManager()<SCGestureBackInteractionDelegate>
 
 @property (nonatomic, strong) SCNormalPresentTransition *normalPresentTrans;
 @property (nonatomic, strong) SCNormalDismissTransition *normalDismissTrans;
@@ -64,6 +64,21 @@
         _zoomDismissTrans.context = context;
     }
     return self;
+}
+
+- (void)setWillDismiss:(void (^)())willDismiss {
+    _willDismiss = willDismiss;
+    self.interactionController.willDismiss = willDismiss;
+}
+
+- (void)setDidDismiss:(void (^)())didDismiss {
+    _didDismiss = didDismiss;
+    self.interactionController.didDismiss = didDismiss;
+}
+
+- (void)setWillPop:(void (^)())willPop {
+    _willPop = willPop;
+    self.interactionController.willPop = willPop;
 }
 
 #pragma mark - UIViewControllerTransitioningDelegate
@@ -120,7 +135,18 @@
        didShowViewController:(UIViewController *)viewController
                     animated:(BOOL)animated {
     SCTransitionManager *transMgr = objc_getAssociatedObject(viewController, TransitionKey);
+    if (transMgr.didPush) {
+        transMgr.didPush();
+        transMgr.didPush = nil;
+    }
     if (![transMgr isEqual:navigationController.delegate]) {
+        SCTransitionManager *currentTransMgr = (SCTransitionManager *)navigationController.delegate;
+        if ([currentTransMgr isKindOfClass:[SCTransitionManager class]]) {
+            if (currentTransMgr.didPop) {
+                currentTransMgr.didPop();
+                currentTransMgr.didPop = nil;
+            }
+        }
         navigationController.delegate = transMgr;
     }
 }

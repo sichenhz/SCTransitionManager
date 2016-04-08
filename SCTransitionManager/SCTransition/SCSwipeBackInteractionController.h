@@ -58,6 +58,10 @@
 
 @property (nonatomic, strong) SCGestureTransitionBackContext *context;
 
+@property (nonatomic, copy) void(^willDismiss)();
+@property (nonatomic, copy) void(^didDismiss)();
+@property (nonatomic, copy) void(^willPop)();
+
 /**
  *  @param 要支持手势划回的view
  */

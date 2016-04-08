@@ -33,7 +33,9 @@
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
     vc.view.backgroundColor = [UIColor orangeColor];
     
-    [SCTransition presentViewController:nav sourceView:self.avatarView targetView:vc.avatarView animated:YES completion:nil];
+    [SCTransition presentViewController:nav sourceView:self.avatarView targetView:vc.avatarView animated:YES completion:^{
+        NSLog(@"zoomPresent done!!");
+    }];
 }
 
 - (IBAction)normalPresent:(id)sender {
@@ -42,21 +44,27 @@
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
     vc.view.backgroundColor = [UIColor orangeColor];
     
-    [SCTransition presentViewController:nav animated:YES completion:nil];
+    [SCTransition presentViewController:nav animated:YES completion:^{
+        NSLog(@"normalPresent done!!");
+    }];
 }
 
 - (IBAction)zoomPush:(id)sender {
     SCViewController *vc = [[SCViewController alloc] init];
     vc.title = @"Second VC";
     vc.view.backgroundColor = [UIColor orangeColor];
-    [SCTransition pushViewController:vc sourceView:self.avatarView targetView:vc.avatarView animated:YES];
+    [SCTransition pushViewController:vc sourceView:self.avatarView targetView:vc.avatarView animated:YES completion:^{
+        NSLog(@"zoomPush done!!");
+    }];
 }
 
 - (IBAction)normalPush:(id)sender {
     SCViewController *vc = [[SCViewController alloc] init];
     vc.title = @"Second VC";
     vc.view.backgroundColor = [UIColor orangeColor];
-    [SCTransition pushViewController:vc animated:YES];
+    [SCTransition pushViewController:vc animated:YES completion:^{
+        NSLog(@"normalPush done!!");
+    }];
 }
 
 @end

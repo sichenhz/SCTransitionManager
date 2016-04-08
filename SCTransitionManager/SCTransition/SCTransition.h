@@ -11,6 +11,26 @@
 @interface SCTransition : NSObject
 
 /**
+ *  dismiss开始时调用（包括dismiss方法和手势划回）
+ */
++ (void)setDismissStart:(void (^)())start;
+
+/**
+ *  dismiss完成时调用（包括dismiss方法和手势划回）
+ */
++ (void)setDismissCompletion:(void (^)())completion;
+
+/**
+ *  pop开始时调用（包括pop方法、手势划回、不包括点击返回按钮）
+ */
++ (void)setPopStart:(void (^)())start;
+
+/**
+ *  pop完成时调用（包括pop方法和手势划回、不包括点击返回按钮）
+ */
++ (void)setPopCompletion:(void (^)())completion;
+
+/**
  *  调用该方法present会使用模仿NavigationController的push效果
  *
  *  @param viewController   跳转的ViewController（可以是NavigationController，也可以是普通ViewController）
@@ -40,13 +60,11 @@
  *  调用该方法dismiss时，会自动选择present时对应的效果
  *
  *  @param animated         是否需要动画
- *  @param completion       完成后回调
  */
-+ (void)dismissViewControllerAnimated:(BOOL)animated
-                           completion:(void (^)())completion;
++ (void)dismissViewControllerAnimated:(BOOL)animated;
 
 /**
- *  dismiss至栈内特定的ViewController，该方法无法使用缩放效果
+ *  dismiss至栈内特定的ViewController
  *
  *  @param viewController   dissmis至某个栈内的控制器
  *  @param animated         是否需要动画
@@ -57,7 +75,7 @@
                      completion:(void (^)())completion;
 
 /**
- *  dismiss至RootViewController，该方法无法使用缩放效果
+ *  dismiss至RootViewController
  *
  *  @param animated         是否需要动画
  *  @param completion       完成后回调
@@ -72,7 +90,8 @@
  *  @param animated         是否需要动画
  */
 + (void)pushViewController:(UIViewController *)viewController
-                  animated:(BOOL)animated;
+                  animated:(BOOL)animated
+                completion:(void (^)())completion;
 
 /**
  *  调用该方法push会使用缩放效果，由sourceView缩放至targetView
@@ -85,7 +104,8 @@
 + (void)pushViewController:(UIViewController *)viewController
                 sourceView:(UIView *)sourceView
                 targetView:(UIView *)targetView
-                  animated:(BOOL)animated;
+                  animated:(BOOL)animated
+                completion:(void (^)())completion;
 
 /**
  *  调用该方法pop时，会自动选择push时对应的效果
@@ -95,19 +115,21 @@
 + (UIViewController *)popViewControllerAnimated:(BOOL)animated;
 
 /**
- *  pop至栈内特定的ViewController，该方法无法使用缩放效果
+ *  pop至栈内特定的ViewController
  *
  *  @param viewController   pop至某个栈内的控制器
  *  @param animated         是否需要动画
  */
 + (NSArray *)popToViewController:(UIViewController *)viewController
-                        animated:(BOOL)animated;
+                        animated:(BOOL)animated
+                      completion:(void (^)())completion;
 
 /**
- *  pop至RootViewController，该方法无法使用缩放效果
+ *  pop至RootViewController
  *
  *  @param animated         是否需要动画
  */
-+ (NSArray *)popToRootViewControllerAnimated:(BOOL)animated;
++ (NSArray *)popToRootViewControllerAnimated:(BOOL)animated
+                                  completion:(void (^)())completion;
 
 @end

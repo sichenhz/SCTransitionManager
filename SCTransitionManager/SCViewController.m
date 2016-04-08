@@ -22,6 +22,34 @@
     imageView.frame = CGRectMake(0, 64, width, width);
     [self.view addSubview:imageView];
     _avatarView = imageView;
+    
+    UIBarButtonItem *dismissItem = [[UIBarButtonItem alloc] initWithTitle:@"dismiss" style:UIBarButtonItemStylePlain target:self action:@selector(dismissHandler:)];
+    UIBarButtonItem *popItem = [[UIBarButtonItem alloc] initWithTitle:@"pop" style:UIBarButtonItemStylePlain target:self action:@selector(popHandler:)];
+    self.navigationItem.leftBarButtonItems = @[dismissItem, popItem];
+    
+    [SCTransition setPopStart:^{
+        NSLog(@"pop start!!!");
+    }];
+    
+    [SCTransition setPopCompletion:^{
+        NSLog(@"pop done!!!");
+    }];
+    
+    [SCTransition setDismissStart:^{
+        NSLog(@"dismiss start!!!");
+    }];
+    
+    [SCTransition setDismissCompletion:^{
+        NSLog(@"dismiss done!!!");
+    }];
+}
+
+- (void)dismissHandler:(id)sender {
+    [SCTransition dismissViewControllerAnimated:YES];
+}
+
+- (void)popHandler:(id)sender {
+    [SCTransition popViewControllerAnimated:YES];
 }
 
 #pragma mark - SCGestureBackInteractionDelegate

@@ -83,6 +83,12 @@
                 }
             }
             if ([_gestureBackInteractionDelegate respondsToSelector:@selector(gestureBackBegin)]) {
+                if (self.willDismiss) {
+                    self.willDismiss();
+                }
+                if (self.willPop) {
+                    self.willPop();
+                }
                 [_gestureBackInteractionDelegate gestureBackBegin];
             }
             break;
@@ -113,6 +119,9 @@
             } else {
                 if (_gestureBackInteractionDelegate && [_gestureBackInteractionDelegate respondsToSelector:@selector(gestureBackFinish)]) {
                     [_gestureBackInteractionDelegate gestureBackFinish];
+                    if (self.didDismiss) {
+                        self.didDismiss();
+                    }
                 }
                 [self finishInteractiveTransition];
             }
