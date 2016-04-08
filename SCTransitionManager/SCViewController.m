@@ -27,7 +27,7 @@
     UIBarButtonItem *popItem = [[UIBarButtonItem alloc] initWithTitle:@"pop" style:UIBarButtonItemStylePlain target:self action:@selector(popHandler:)];
     self.navigationItem.leftBarButtonItems = @[dismissItem, popItem];
     
-    [SCTransition setPopStart:^{
+    [SCTransition setEnablePop:^{
         NSLog(@"pop start!!!");
     }];
     
@@ -35,7 +35,7 @@
         NSLog(@"pop done!!!");
     }];
     
-    [SCTransition setDismissStart:^{
+    [SCTransition setEnableDismiss:^{
         NSLog(@"dismiss start!!!");
     }];
     
