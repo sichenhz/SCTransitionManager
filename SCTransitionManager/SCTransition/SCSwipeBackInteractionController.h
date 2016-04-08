@@ -58,9 +58,6 @@
 
 @property (nonatomic, strong) SCGestureTransitionBackContext *context;
 
-@property (nonatomic, copy) BOOL(^enableDismiss)();
-@property (nonatomic, copy) BOOL(^enablePop)();
-
 @property (nonatomic, copy) void(^didDismiss)();
 
 /**

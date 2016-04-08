@@ -83,12 +83,6 @@
                 }
             }
             if ([_gestureBackInteractionDelegate respondsToSelector:@selector(gestureBackBegin)]) {
-                if (self.enableDismiss) {
-                    gestureRecognizer.enabled = self.enableDismiss();
-                }
-                else if (self.enablePop) {
-                    gestureRecognizer.enabled = self.enablePop();
-                }
                 [_gestureBackInteractionDelegate gestureBackBegin];
             }
             break;

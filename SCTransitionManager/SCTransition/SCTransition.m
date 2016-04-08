@@ -15,25 +15,6 @@
 
 #pragma mark - Setter
 
-+ (void)setEnableDismiss:(BOOL (^)())enableDismiss {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIViewController *vcToDismiss = self.topViewController;
-        SCTransitionManager *transMgr = (SCTransitionManager *)vcToDismiss.transitioningDelegate;
-        transMgr.enableDismiss = enableDismiss ? : nil;
-    });
-}
-
-+ (void)setEnablePop:(BOOL (^)())enablePop {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UINavigationController *topViewController = (UINavigationController *)self.topViewController;
-        if ([topViewController isKindOfClass:[UINavigationController class]] &&
-            topViewController.viewControllers.count > 1) {
-            SCTransitionManager *transMgr = (SCTransitionManager *)topViewController.delegate;
-            transMgr.enablePop = enablePop ? : nil;
-        }
-    });
-}
-
 + (void)setDismissCompletion:(void (^)())completion {
     dispatch_async(dispatch_get_main_queue(), ^{
         UIViewController *vcToDismiss = self.topViewController;
@@ -106,11 +87,7 @@
     SCTransitionManager *transMgr = (SCTransitionManager *)vcToDismiss.transitioningDelegate;
     if (!vcToDismiss.isBeingDismissed &&
         !vcToDismiss.isBeingPresented) {
-        if (transMgr.enableDismiss) {
-            if (transMgr.enableDismiss()) {
-                [vcToDismiss dismissViewControllerAnimated:animated completion:transMgr.didDismiss];
-            }
-        }
+        [vcToDismiss dismissViewControllerAnimated:animated completion:transMgr.didDismiss];
     }
 }
 
@@ -124,12 +101,7 @@
         !vcToDismiss.isBeingDismissed &&
         !vcToDismiss.isBeingPresented) {
         vcToDismiss.view = topViewController.view.captureView;
-        SCTransitionManager *transMgr = (SCTransitionManager *)vcToDismiss.transitioningDelegate;
-        if (transMgr.enableDismiss) {
-            if (transMgr.enableDismiss()) {
-                [viewController dismissViewControllerAnimated:animated completion:completion];
-            }
-        }
+        [viewController dismissViewControllerAnimated:animated completion:completion];
     }
 }
 
@@ -142,15 +114,10 @@
     if (vcToDismiss != nil &&
         !vcToDismiss.isBeingDismissed &&
         !vcToDismiss.isBeingPresented) {
-        SCTransitionManager *transMgr = (SCTransitionManager *)vcToDismiss.transitioningDelegate;
         if (![vcToDismiss isEqual:topViewController]) {
             vcToDismiss.view = topViewController.view.captureView;
         }
-        if (transMgr.enableDismiss) {
-            if (transMgr.enableDismiss()) {
-                [rootVC dismissViewControllerAnimated:animated completion:completion];
-            }
-        }
+        [rootVC dismissViewControllerAnimated:animated completion:completion];
     }
 }
 
@@ -206,11 +173,7 @@
         topViewController.viewControllers.count > 1) {
         SCTransitionManager *transMgr = (SCTransitionManager *)topViewController.delegate;
         transMgr.didPop = transMgr.didPop ? : nil;
-        if (transMgr.enablePop) {
-            if (transMgr.enablePop()) {
-                return [topViewController popViewControllerAnimated:animated];
-            }
-        }
+        return [topViewController popViewControllerAnimated:animated];
     }
     return nil;
 }
@@ -223,11 +186,7 @@
         topViewController.viewControllers.count > 1) {
         SCTransitionManager *transMgr = (SCTransitionManager *)topViewController.delegate;
         transMgr.didPop = completion ? : nil;
-        if (transMgr.enablePop) {
-            if (transMgr.enablePop()) {
-                return [topViewController popToViewController:viewController animated:animated];
-            }
-        }
+        return [topViewController popToViewController:viewController animated:animated];
     }
     return nil;
 }
@@ -239,11 +198,7 @@
         topViewController.viewControllers.count > 1) {
         SCTransitionManager *transMgr = (SCTransitionManager *)topViewController.delegate;
         transMgr.didPop = completion ? : nil;
-        if (transMgr.enablePop) {
-            if (transMgr.enablePop()) {
-                return [topViewController popToRootViewControllerAnimated:animated];
-            }
-        }
+        return [topViewController popToRootViewControllerAnimated:animated];
     }
     return nil;
 }

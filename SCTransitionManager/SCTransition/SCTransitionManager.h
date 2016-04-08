@@ -28,9 +28,6 @@ UINavigationControllerDelegate>
                   targetView:(UIView *)targetView
                       isPush:(BOOL)isPush;
 
-@property (nonatomic, copy) BOOL (^enableDismiss)();
-@property (nonatomic, copy) BOOL (^enablePop)();
-
 @property (nonatomic, copy) void (^didDismiss)();
 @property (nonatomic, copy) void (^didPop)();
 @property (nonatomic, copy) void (^didPush)();

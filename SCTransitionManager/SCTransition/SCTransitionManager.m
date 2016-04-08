@@ -66,16 +66,6 @@
     return self;
 }
 
-- (void)setEnableDismiss:(BOOL (^)())enableDismiss {
-    _enableDismiss = enableDismiss;
-    self.interactionController.enableDismiss = enableDismiss;
-}
-
-- (void)setEnablePop:(BOOL (^)())enablePop {
-    _enablePop = enablePop;
-    self.interactionController.enablePop = enablePop;
-}
-
 - (void)setDidDismiss:(void (^)())didDismiss {
     _didDismiss = didDismiss;
     self.interactionController.didDismiss = didDismiss;
