@@ -13,12 +13,12 @@
 /**
  *  dismiss开始时调用（包括dismiss方法和手势划回）
  */
-+ (void)setEnableDismiss:(void (^)())enableDismiss;
++ (void)setEnableDismiss:(BOOL (^)())enableDismiss;
 
 /**
  *  pop开始时调用（包括pop方法、手势划回、不包括点击返回按钮）
  */
-+ (void)setEnablePop:(void (^)())enablePop;
++ (void)setEnablePop:(BOOL (^)())enablePop;
 
 /**
  *  dismiss完成时调用（包括dismiss方法和手势划回）

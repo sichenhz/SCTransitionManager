@@ -66,19 +66,19 @@
     return self;
 }
 
-- (void)setWillDismiss:(void (^)())willDismiss {
-    _willDismiss = willDismiss;
-    self.interactionController.willDismiss = willDismiss;
+- (void)setEnableDismiss:(BOOL (^)())enableDismiss {
+    _enableDismiss = enableDismiss;
+    self.interactionController.enableDismiss = enableDismiss;
+}
+
+- (void)setEnablePop:(BOOL (^)())enablePop {
+    _enablePop = enablePop;
+    self.interactionController.enablePop = enablePop;
 }
 
 - (void)setDidDismiss:(void (^)())didDismiss {
     _didDismiss = didDismiss;
     self.interactionController.didDismiss = didDismiss;
-}
-
-- (void)setWillPop:(void (^)())willPop {
-    _willPop = willPop;
-    self.interactionController.willPop = willPop;
 }
 
 #pragma mark - UIViewControllerTransitioningDelegate

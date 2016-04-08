@@ -29,6 +29,7 @@
     
     [SCTransition setEnablePop:^{
         NSLog(@"pop start!!!");
+        return NO;
     }];
     
     [SCTransition setPopCompletion:^{
@@ -37,6 +38,7 @@
     
     [SCTransition setEnableDismiss:^{
         NSLog(@"dismiss start!!!");
+        return NO;
     }];
     
     [SCTransition setDismissCompletion:^{

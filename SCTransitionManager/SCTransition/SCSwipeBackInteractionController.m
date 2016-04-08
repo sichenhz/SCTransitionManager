@@ -83,11 +83,11 @@
                 }
             }
             if ([_gestureBackInteractionDelegate respondsToSelector:@selector(gestureBackBegin)]) {
-                if (self.willDismiss) {
-                    self.willDismiss();
+                if (self.enableDismiss) {
+                    gestureRecognizer.enabled = self.enableDismiss();
                 }
-                if (self.willPop) {
-                    self.willPop();
+                else if (self.enablePop) {
+                    gestureRecognizer.enabled = self.enablePop();
                 }
                 [_gestureBackInteractionDelegate gestureBackBegin];
             }

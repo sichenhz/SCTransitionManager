@@ -15,21 +15,21 @@
 
 #pragma mark - Setter
 
-+ (void)setEnableDismiss:(void (^)())enableDismiss {
++ (void)setEnableDismiss:(BOOL (^)())enableDismiss {
     dispatch_async(dispatch_get_main_queue(), ^{
         UIViewController *vcToDismiss = self.topViewController;
         SCTransitionManager *transMgr = (SCTransitionManager *)vcToDismiss.transitioningDelegate;
-        transMgr.willDismiss = enableDismiss ? : nil;
+        transMgr.enableDismiss = enableDismiss ? : nil;
     });
 }
 
-+ (void)setEnablePop:(void (^)())enablePop {
++ (void)setEnablePop:(BOOL (^)())enablePop {
     dispatch_async(dispatch_get_main_queue(), ^{
         UINavigationController *topViewController = (UINavigationController *)self.topViewController;
         if ([topViewController isKindOfClass:[UINavigationController class]] &&
             topViewController.viewControllers.count > 1) {
             SCTransitionManager *transMgr = (SCTransitionManager *)topViewController.delegate;
-            transMgr.willPop = enablePop ? : nil;
+            transMgr.enablePop = enablePop ? : nil;
         }
     });
 }
@@ -106,10 +106,11 @@
     SCTransitionManager *transMgr = (SCTransitionManager *)vcToDismiss.transitioningDelegate;
     if (!vcToDismiss.isBeingDismissed &&
         !vcToDismiss.isBeingPresented) {
-        if (transMgr.willDismiss) {
-            transMgr.willDismiss();
+        if (transMgr.enableDismiss) {
+            if (transMgr.enableDismiss()) {
+                [vcToDismiss dismissViewControllerAnimated:animated completion:transMgr.didDismiss];
+            }
         }
-        [vcToDismiss dismissViewControllerAnimated:animated completion:transMgr.didDismiss];
     }
 }
 
@@ -124,10 +125,11 @@
         !vcToDismiss.isBeingPresented) {
         vcToDismiss.view = topViewController.view.captureView;
         SCTransitionManager *transMgr = (SCTransitionManager *)vcToDismiss.transitioningDelegate;
-        if (transMgr.willDismiss) {
-            transMgr.willDismiss();
+        if (transMgr.enableDismiss) {
+            if (transMgr.enableDismiss()) {
+                [viewController dismissViewControllerAnimated:animated completion:completion];
+            }
         }
-        [viewController dismissViewControllerAnimated:animated completion:completion];
     }
 }
 
@@ -144,10 +146,11 @@
         if (![vcToDismiss isEqual:topViewController]) {
             vcToDismiss.view = topViewController.view.captureView;
         }
-        if (transMgr.willDismiss) {
-            transMgr.willDismiss();
+        if (transMgr.enableDismiss) {
+            if (transMgr.enableDismiss()) {
+                [rootVC dismissViewControllerAnimated:animated completion:completion];
+            }
         }
-        [rootVC dismissViewControllerAnimated:animated completion:completion];
     }
 }
 
@@ -203,13 +206,13 @@
         topViewController.viewControllers.count > 1) {
         SCTransitionManager *transMgr = (SCTransitionManager *)topViewController.delegate;
         transMgr.didPop = transMgr.didPop ? : nil;
-        if (transMgr.willPop) {
-            transMgr.willPop();
+        if (transMgr.enablePop) {
+            if (transMgr.enablePop()) {
+                return [topViewController popViewControllerAnimated:animated];
+            }
         }
-        return [topViewController popViewControllerAnimated:animated];
-    } else {
-        return nil;
     }
+    return nil;
 }
 
 + (NSArray *)popToViewController:(UIViewController *)viewController
@@ -220,13 +223,13 @@
         topViewController.viewControllers.count > 1) {
         SCTransitionManager *transMgr = (SCTransitionManager *)topViewController.delegate;
         transMgr.didPop = completion ? : nil;
-        if (transMgr.willPop) {
-            transMgr.willPop();
+        if (transMgr.enablePop) {
+            if (transMgr.enablePop()) {
+                return [topViewController popToViewController:viewController animated:animated];
+            }
         }
-        return [topViewController popToViewController:viewController animated:animated];
-    } else {
-        return nil;
     }
+    return nil;
 }
 
 + (NSArray *)popToRootViewControllerAnimated:(BOOL)animated
@@ -236,13 +239,13 @@
         topViewController.viewControllers.count > 1) {
         SCTransitionManager *transMgr = (SCTransitionManager *)topViewController.delegate;
         transMgr.didPop = completion ? : nil;
-        if (transMgr.willPop) {
-            transMgr.willPop();
+        if (transMgr.enablePop) {
+            if (transMgr.enablePop()) {
+                return [topViewController popToRootViewControllerAnimated:animated];
+            }
         }
-        return [topViewController popToRootViewControllerAnimated:animated];
-    } else {
-        return nil;
     }
+    return nil;
 }
 
 #pragma mark - Private Method
