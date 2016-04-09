@@ -62,8 +62,16 @@
     SCViewController *vc = [[SCViewController alloc] init];
     vc.title = @"Second VC";
     vc.view.backgroundColor = [UIColor orangeColor];
-    [SCTransition pushViewController:vc animated:YES completion:^{
-        NSLog(@"normalPush done!!");
+//    [SCTransition pushViewController:vc animated:YES completion:^{
+//        NSLog(@"normalPush done!!");
+//    }];
+//    [SCTransition pushViewController:vc];
+    SCViewController *vc2 = [[SCViewController alloc] init];
+    vc2.title = @"Third VC";
+    vc2.view.backgroundColor = [UIColor greenColor];
+    
+    [SCTransition pushViewControllers:@[vc, vc2] animated:YES completion:^{
+        NSLog(@"done!!!!!!!");
     }];
 }
 

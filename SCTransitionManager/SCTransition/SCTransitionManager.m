@@ -132,6 +132,7 @@
                 currentTransMgr.didPop = nil;
             }
         }
+        NSLog(@"替换代理%@ - > %@", currentTransMgr , transMgr);
         navigationController.delegate = transMgr;
     }
 }

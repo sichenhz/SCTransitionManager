@@ -15,10 +15,6 @@
 
 #pragma mark - Present
 
-+ (void)presentViewController:(UIViewController *)viewController {
-    [self presentViewController:viewController animated:YES completion:nil];
-}
-
 + (void)presentViewController:(UIViewController *)viewController
                      animated:(BOOL)animated
                    completion:(void (^)())completion {
@@ -102,10 +98,6 @@
 
 #pragma mark - Push
 
-+ (void)pushViewController:(UIViewController *)viewController {
-    [self pushViewController:viewController animated:YES completion:nil];
-}
-
 + (void)pushViewController:(UIViewController *)viewController
                   animated:(BOOL)animated
                 completion:(void (^)())completion {
@@ -141,6 +133,31 @@
         topViewController.delegate = transMgr;
         objc_setAssociatedObject(viewController, TransitionKey, transMgr, OBJC_ASSOCIATION_RETAIN);
         [topViewController pushViewController:viewController animated:animated];
+    }
+}
+
++ (void)pushViewControllers:(NSArray<UIViewController *> *)viewControllers
+                   animated:(BOOL)animated
+                 completion:(void (^)())completion {
+    if (!viewControllers.count) {
+        return;
+    }
+    
+    UINavigationController *topViewController = (UINavigationController *)self.topViewController;
+    if ([topViewController isKindOfClass:[UINavigationController class]]) {
+        NSMutableArray *arrM = [NSMutableArray arrayWithArray:topViewController.viewControllers];
+        for (UIViewController *viewController in viewControllers) {
+            NSInteger index = [viewControllers indexOfObject:viewController];
+            UIView *rootView = [self rootView:viewController];
+            SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView isPush:YES];
+            if (index == viewControllers.count - 1) {
+                transMgr.didPush = completion;
+                topViewController.delegate = transMgr;
+            }
+            objc_setAssociatedObject(viewController, TransitionKey, transMgr, OBJC_ASSOCIATION_RETAIN);
+        }
+        [arrM addObjectsFromArray:viewControllers];
+        [topViewController setViewControllers:[arrM copy] animated:animated];
     }
 }
 
