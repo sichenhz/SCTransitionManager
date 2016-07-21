@@ -92,9 +92,6 @@ Pod::Spec.new do |s|
   #
 
   s.source_files  = 'SCTransitionManager/SCTransitionManager/*.{h,m}'
-  s.resource_bundles = {
-    'SCTransitionManager' => ['SCTransitionManager/SCTransitionManager.bundle/*.png']
-  }
 
   # s.public_header_files = "Classes/**/*.h"
 
