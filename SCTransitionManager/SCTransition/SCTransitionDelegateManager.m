@@ -1,12 +1,12 @@
 //
-//  SCTransitionManager.m
-//  SCTransitionManager
+//  SCTransitionDelegateManager.m
+//  SCTransitionDelegateManager
 //
 //  Created by sichenwang on 16/2/5.
 //  Copyright © 2016年 sichenwang. All rights reserved.
 //
 
-#import "SCTransitionManager.h"
+#import "SCTransitionDelegateManager.h"
 #import "SCNormalPresentTransition.h"
 #import "SCNormalDismissTransition.h"
 #import "SCZoomPresentTransition.h"
@@ -15,7 +15,7 @@
 #import "SCSwipeBackInteractionController.h"
 #import <objc/runtime.h>
 
-@interface SCTransitionManager()<SCGestureBackInteractionDelegate>
+@interface SCTransitionDelegateManager()<SCGestureBackInteractionDelegate>
 
 @property (nonatomic, strong) SCNormalPresentTransition *normalPresentTrans;
 @property (nonatomic, strong) SCNormalDismissTransition *normalDismissTrans;
@@ -25,7 +25,7 @@
 
 @end
 
-@implementation SCTransitionManager
+@implementation SCTransitionDelegateManager
 
 - (instancetype)initWithView:(UIView *)view
                       isPush:(BOOL)isPush {
@@ -119,10 +119,10 @@
 - (void)navigationController:(UINavigationController *)navigationController
        didShowViewController:(UIViewController *)viewController
                     animated:(BOOL)animated {
-    SCTransitionManager *transMgr = objc_getAssociatedObject(viewController, TransitionKey);
+    SCTransitionDelegateManager *transMgr = objc_getAssociatedObject(viewController, TransitionKey);
     if (![transMgr isEqual:navigationController.delegate]) {
-        SCTransitionManager *currentTransMgr = (SCTransitionManager *)navigationController.delegate;
-        if ([currentTransMgr isKindOfClass:[SCTransitionManager class]]) {
+        SCTransitionDelegateManager *currentTransMgr = (SCTransitionDelegateManager *)navigationController.delegate;
+        if ([currentTransMgr isKindOfClass:[SCTransitionDelegateManager class]]) {
             if (currentTransMgr.didPop) {
                 currentTransMgr.didPop();
                 currentTransMgr.didPop = nil;
@@ -138,7 +138,7 @@
 }
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    SCTransitionManager *transMgr = objc_getAssociatedObject(viewController, TransitionKey);
+    SCTransitionDelegateManager *transMgr = objc_getAssociatedObject(viewController, TransitionKey);
     if ([transMgr isEqual:navigationController.delegate]) {
         NSLog(@"viewController即将显示，可能添加的额外操作");
     }

@@ -1,6 +1,6 @@
 //
-//  SCTransitionManager.h
-//  SCTransitionManager
+//  SCTransitionDelegateManager.h
+//  SCTransitionDelegateManager
 //
 //  Created by sichenwang on 16/2/5.
 //  Copyright © 2016年 sichenwang. All rights reserved.
@@ -15,7 +15,7 @@ typedef enum {
 
 static const void *TransitionKey = @"TransitionKey";
 
-@interface SCTransitionManager : NSObject<UIViewControllerTransitioningDelegate,
+@interface SCTransitionDelegateManager : NSObject<UIViewControllerTransitioningDelegate,
 UINavigationControllerDelegate>
 
 @property (nonatomic, assign, readonly) SCTransitionType type;

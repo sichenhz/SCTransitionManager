@@ -7,7 +7,7 @@
 //
 
 #import "SCPushTransition.h"
-#import "SCTransitionManager.h"
+#import "SCTransitionDelegateManager.h"
 #import <objc/runtime.h>
 #import "UIView+Capture.h"
 
@@ -34,7 +34,7 @@
         navigationController = (UINavigationController *)self.topViewController;
     }
     if ([navigationController isKindOfClass:[UINavigationController class]]) {
-        SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView isPush:YES];
+        SCTransitionDelegateManager *transMgr = [[SCTransitionDelegateManager alloc] initWithView:rootView isPush:YES];
         transMgr.didPush = completion;
         navigationController.delegate = transMgr;
         objc_setAssociatedObject(viewController, TransitionKey, transMgr, OBJC_ASSOCIATION_RETAIN);
@@ -54,7 +54,7 @@
     
     UINavigationController *topViewController = (UINavigationController *)self.topViewController;
     if ([topViewController isKindOfClass:[UINavigationController class]]) {
-        SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView sourceView:sourceView targetView:targetView isPush:YES];
+        SCTransitionDelegateManager *transMgr = [[SCTransitionDelegateManager alloc] initWithView:rootView sourceView:sourceView targetView:targetView isPush:YES];
         transMgr.didPush = completion;
         topViewController.delegate = transMgr;
         objc_setAssociatedObject(viewController, TransitionKey, transMgr, OBJC_ASSOCIATION_RETAIN);
@@ -75,7 +75,7 @@
         for (UIViewController *viewController in viewControllers) {
             NSInteger index = [viewControllers indexOfObject:viewController];
             UIView *rootView = [self rootView:viewController];
-            SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView isPush:YES];
+            SCTransitionDelegateManager *transMgr = [[SCTransitionDelegateManager alloc] initWithView:rootView isPush:YES];
             if (index == viewControllers.count - 1) {
                 transMgr.didPush = completion;
                 topViewController.delegate = transMgr;
@@ -113,7 +113,7 @@
                 continue;
             }
             UIView *rootView = [self rootView:viewController];
-            SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView isPush:YES];
+            SCTransitionDelegateManager *transMgr = [[SCTransitionDelegateManager alloc] initWithView:rootView isPush:YES];
             if (index == viewControllers.count - 1) {
                 transMgr.didPush = completion;
                 navigationController.delegate = transMgr;
@@ -133,7 +133,7 @@
     UINavigationController *topViewController = (UINavigationController *)self.topViewController;
     if ([topViewController isKindOfClass:[UINavigationController class]] &&
         topViewController.viewControllers.count > 1) {
-        SCTransitionManager *transMgr = (SCTransitionManager *)topViewController.delegate;
+        SCTransitionDelegateManager *transMgr = (SCTransitionDelegateManager *)topViewController.delegate;
         transMgr.didPop = completion;
         return [topViewController popViewControllerAnimated:animated];
     }
@@ -146,7 +146,7 @@
     UINavigationController *topViewController = (UINavigationController *)self.topViewController;
     if ([topViewController isKindOfClass:[UINavigationController class]] &&
         topViewController.viewControllers.count > 1) {
-        SCTransitionManager *transMgr = (SCTransitionManager *)topViewController.delegate;
+        SCTransitionDelegateManager *transMgr = (SCTransitionDelegateManager *)topViewController.delegate;
         transMgr.didPop = completion;
         return [topViewController popToViewController:viewController animated:animated];
     }
@@ -158,7 +158,7 @@
     UINavigationController *topViewController = (UINavigationController *)self.topViewController;
     if ([topViewController isKindOfClass:[UINavigationController class]] &&
         topViewController.viewControllers.count > 1) {
-        SCTransitionManager *transMgr = (SCTransitionManager *)topViewController.delegate;
+        SCTransitionDelegateManager *transMgr = (SCTransitionDelegateManager *)topViewController.delegate;
         transMgr.didPop = completion;
         return [topViewController popToRootViewControllerAnimated:animated];
     }

@@ -7,7 +7,7 @@
 //
 
 #import "SCPresentTransition.h"
-#import "SCTransitionManager.h"
+#import "SCTransitionDelegateManager.h"
 #import <objc/runtime.h>
 #import "UIView+Capture.h"
 
@@ -22,7 +22,7 @@
         return;
     }
     UIView *rootView = [self rootView:viewController];
-    SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView isPush:NO];
+    SCTransitionDelegateManager *transMgr = [[SCTransitionDelegateManager alloc] initWithView:rootView isPush:NO];
     viewController.transitioningDelegate = transMgr;
     objc_setAssociatedObject(viewController, TransitionKey, transMgr, OBJC_ASSOCIATION_RETAIN);
     
@@ -43,7 +43,7 @@
     }
     UIView *rootView = [self rootView:viewController];
     
-    SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView sourceView:sourceView targetView:targetView isPush:NO];
+    SCTransitionDelegateManager *transMgr = [[SCTransitionDelegateManager alloc] initWithView:rootView sourceView:sourceView targetView:targetView isPush:NO];
     
     viewController.transitioningDelegate = transMgr;
     objc_setAssociatedObject(viewController, TransitionKey, transMgr, OBJC_ASSOCIATION_RETAIN);
