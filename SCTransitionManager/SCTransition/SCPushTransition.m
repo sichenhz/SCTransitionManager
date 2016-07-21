@@ -1,104 +1,28 @@
 //
-//  SCTransition.m
+//  SCPushTransition.m
 //  SCTransitionManager
 //
-//  Created by sichenwang on 16/2/7.
+//  Created by sichenwang on 16/7/21.
 //  Copyright © 2016年 sichenwang. All rights reserved.
 //
 
-#import "SCTransition.h"
+#import "SCPushTransition.h"
 #import "SCTransitionManager.h"
 #import <objc/runtime.h>
 #import "UIView+Capture.h"
 
-@implementation SCTransition
-
-#pragma mark - Present
-
-+ (void)presentViewController:(UIViewController *)viewController
-                     animated:(BOOL)animated
-                   completion:(void (^)())completion {
-    if (viewController == nil) {
-        return;
-    }
-    UIView *rootView = [self rootView:viewController];
-    SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView isPush:NO];
-    viewController.transitioningDelegate = transMgr;
-    objc_setAssociatedObject(viewController, TransitionKey, transMgr, OBJC_ASSOCIATION_RETAIN);
-    
-    UIViewController *topViewController = self.topViewController;
-    if (!topViewController.isBeingDismissed &&
-        !topViewController.isBeingPresented) {
-        [topViewController presentViewController:viewController animated:animated completion:completion];
-    }
-}
-
-+ (void)presentViewController:(UIViewController *)viewController
-                   sourceView:(UIView *)sourceView
-                   targetView:(UIView *)targetView
-                     animated:(BOOL)animated
-                   completion:(void (^)())completion {
-    if (viewController == nil) {
-        return;
-    }
-    UIView *rootView = [self rootView:viewController];
-    
-    SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView sourceView:sourceView targetView:targetView isPush:NO];
-    
-    viewController.transitioningDelegate = transMgr;
-    objc_setAssociatedObject(viewController, TransitionKey, transMgr, OBJC_ASSOCIATION_RETAIN);
-    
-    UIViewController *topViewController = self.topViewController;
-    if (!topViewController.isBeingDismissed &&
-        !topViewController.isBeingPresented) {
-        [topViewController presentViewController:viewController animated:animated completion:completion];
-    }
-}
-
-#pragma mark - Dismiss
-
-+ (void)dismissViewControllerAnimated:(BOOL)animated
-                           completion:(void (^)())completion {
-    UIViewController *vcToDismiss = self.topViewController;
-    if (!vcToDismiss.isBeingDismissed &&
-        !vcToDismiss.isBeingPresented) {
-        [vcToDismiss dismissViewControllerAnimated:animated completion:completion];
-    }
-}
-
-+ (void)dismissToViewController:(UIViewController *)viewController
-                       animated:(BOOL)animated
-                     completion:(void (^)())completion {
-    UIViewController *topViewController = self.topViewController;
-    UIViewController *vcToDismiss = viewController.presentedViewController;
-    
-    if (vcToDismiss != nil &&
-        !vcToDismiss.isBeingDismissed &&
-        !vcToDismiss.isBeingPresented) {
-        vcToDismiss.view = topViewController.view.captureView;
-        [viewController dismissViewControllerAnimated:animated completion:completion];
-    }
-}
-
-+ (void)dismissToRootViewControllerAnimated:(BOOL)animated
-                                 completion:(void (^)())completion {
-    UIViewController *topViewController = self.topViewController;
-    UIViewController *rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
-    UIViewController *vcToDismiss = rootVC.presentedViewController;
-
-    if (vcToDismiss != nil &&
-        !vcToDismiss.isBeingDismissed &&
-        !vcToDismiss.isBeingPresented) {
-        if (![vcToDismiss isEqual:topViewController]) {
-            vcToDismiss.view = topViewController.view.captureView;
-        }
-        [rootVC dismissViewControllerAnimated:animated completion:completion];
-    }
-}
+@implementation SCPushTransition
 
 #pragma mark - Push
 
 + (void)pushViewController:(UIViewController *)viewController
+                  animated:(BOOL)animated
+                completion:(void (^)())completion {
+    [self pushViewController:viewController fromNavigationController:nil animated:animated completion:completion];
+}
+
++ (void)pushViewController:(UIViewController *)viewController
+  fromNavigationController:(UINavigationController *)navigationController
                   animated:(BOOL)animated
                 completion:(void (^)())completion {
     if (viewController == nil) {
@@ -106,13 +30,15 @@
     }
     UIView *rootView = [self rootView:viewController];
     
-    UINavigationController *topViewController = (UINavigationController *)self.topViewController;
-    if ([topViewController isKindOfClass:[UINavigationController class]]) {
+    if (!navigationController) {
+        navigationController = (UINavigationController *)self.topViewController;
+    }
+    if ([navigationController isKindOfClass:[UINavigationController class]]) {
         SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView isPush:YES];
         transMgr.didPush = completion;
-        topViewController.delegate = transMgr;
+        navigationController.delegate = transMgr;
         objc_setAssociatedObject(viewController, TransitionKey, transMgr, OBJC_ASSOCIATION_RETAIN);
-        [topViewController pushViewController:viewController animated:animated];
+        [navigationController pushViewController:viewController animated:animated];
     }
 }
 
@@ -153,11 +79,50 @@
             if (index == viewControllers.count - 1) {
                 transMgr.didPush = completion;
                 topViewController.delegate = transMgr;
+            } else {
+                NSLog(@"当前set了多个controller，可对非最后一个controller进行额外的操作");
             }
             objc_setAssociatedObject(viewController, TransitionKey, transMgr, OBJC_ASSOCIATION_RETAIN);
         }
         [arrM addObjectsFromArray:viewControllers];
         [topViewController setViewControllers:[arrM copy] animated:animated];
+    }
+}
+
++ (void)setViewControllers:(NSArray<UIViewController *> *)viewControllers
+                  animated:(BOOL)animated
+                completion:(void (^)())completion {
+    [self setViewControllers:viewControllers fromNavigationController:nil animated:animated completion:completion];
+}
+
++ (void)setViewControllers:(NSArray<UIViewController *> *)viewControllers
+  fromNavigationController:(UINavigationController *)navigationController
+                  animated:(BOOL)animated
+                completion:(void (^)())completion {
+    if (!viewControllers.count) {
+        return;
+    }
+    
+    if (!navigationController) {
+        navigationController = (UINavigationController *)self.topViewController;
+    }
+    if ([navigationController isKindOfClass:[UINavigationController class]]) {
+        for (UIViewController *viewController in viewControllers) {
+            NSInteger index = [viewControllers indexOfObject:viewController];
+            if (index == 0) {
+                continue;
+            }
+            UIView *rootView = [self rootView:viewController];
+            SCTransitionManager *transMgr = [[SCTransitionManager alloc] initWithView:rootView isPush:YES];
+            if (index == viewControllers.count - 1) {
+                transMgr.didPush = completion;
+                navigationController.delegate = transMgr;
+            } else {
+                NSLog(@"set了多个controller时，对每个controller可能进行的操作");
+            }
+            objc_setAssociatedObject(viewController, TransitionKey, transMgr, OBJC_ASSOCIATION_RETAIN);
+        }
+        [navigationController setViewControllers:viewControllers animated:animated];
     }
 }
 

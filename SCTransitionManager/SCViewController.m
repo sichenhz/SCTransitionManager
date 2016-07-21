@@ -8,7 +8,9 @@
 
 #import "SCViewController.h"
 #import "SCSwipeBackInteractionController.h"
-#import "SCTransition.h"
+#import "SCPushTransition.h"
+#import "SCPresentTransition.h"
+
 @interface SCViewController()<SCGestureBackInteractionDelegate>
 
 @end
@@ -29,13 +31,13 @@
 }
 
 - (void)dismissHandler:(id)sender {
-    [SCTransition dismissViewControllerAnimated:YES completion:^{
+    [SCPresentTransition dismissViewControllerAnimated:YES completion:^{
         NSLog(@"dismiss done!!!");
     }];
 }
 
 - (void)popHandler:(id)sender {
-    [SCTransition popViewControllerAnimated:YES completion:^{
+    [SCPushTransition popViewControllerAnimated:YES completion:^{
         NSLog(@"pop done!!!");
     }];
 }

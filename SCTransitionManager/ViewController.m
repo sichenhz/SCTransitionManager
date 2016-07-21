@@ -7,7 +7,8 @@
 //
 
 #import "ViewController.h"
-#import "SCTransition.h"
+#import "SCPushTransition.h"
+#import "SCPresentTransition.h"
 #import "SCViewController.h"
 
 @interface ViewController ()
@@ -33,7 +34,7 @@
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
     vc.view.backgroundColor = [UIColor orangeColor];
     
-    [SCTransition presentViewController:nav sourceView:self.avatarView targetView:vc.avatarView animated:YES completion:^{
+    [SCPresentTransition presentViewController:nav sourceView:self.avatarView targetView:vc.avatarView animated:YES completion:^{
         NSLog(@"zoomPresent done!!");
     }];
 }
@@ -44,7 +45,7 @@
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
     vc.view.backgroundColor = [UIColor orangeColor];
     
-    [SCTransition presentViewController:nav animated:YES completion:^{
+    [SCPresentTransition presentViewController:nav animated:YES completion:^{
         NSLog(@"normalPresent done!!");
     }];
 }
@@ -53,7 +54,7 @@
     SCViewController *vc = [[SCViewController alloc] init];
     vc.title = @"Second VC";
     vc.view.backgroundColor = [UIColor orangeColor];
-    [SCTransition pushViewController:vc sourceView:self.avatarView targetView:vc.avatarView animated:YES completion:^{
+    [SCPushTransition pushViewController:vc sourceView:self.avatarView targetView:vc.avatarView animated:YES completion:^{
         NSLog(@"zoomPush done!!");
     }];
 }
@@ -62,15 +63,12 @@
     SCViewController *vc = [[SCViewController alloc] init];
     vc.title = @"Second VC";
     vc.view.backgroundColor = [UIColor orangeColor];
-//    [SCTransition pushViewController:vc animated:YES completion:^{
-//        NSLog(@"normalPush done!!");
-//    }];
-//    [SCTransition pushViewController:vc];
+
     SCViewController *vc2 = [[SCViewController alloc] init];
     vc2.title = @"Third VC";
     vc2.view.backgroundColor = [UIColor greenColor];
     
-    [SCTransition pushViewControllers:@[vc, vc2] animated:YES completion:^{
+    [SCPushTransition pushViewControllers:@[vc, vc2] animated:YES completion:^{
         NSLog(@"done!!!!!!!");
     }];
 }

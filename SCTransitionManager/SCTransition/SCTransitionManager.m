@@ -57,7 +57,7 @@
         _zoomDismissTrans.targetView = targetView;
         _zoomPresentTrans.view = visibleView;
         _zoomDismissTrans.view = visibleView;
-
+        
         _interactionController = [[SCSwipeBackInteractionController alloc] initWithView:view isPush:isPush];
         SCGestureTransitionBackContext *context = [[SCGestureTransitionBackContext alloc] init];
         _interactionController.context = context;
@@ -120,10 +120,6 @@
        didShowViewController:(UIViewController *)viewController
                     animated:(BOOL)animated {
     SCTransitionManager *transMgr = objc_getAssociatedObject(viewController, TransitionKey);
-    if (transMgr.didPush) {
-        transMgr.didPush();
-        transMgr.didPush = nil;
-    }
     if (![transMgr isEqual:navigationController.delegate]) {
         SCTransitionManager *currentTransMgr = (SCTransitionManager *)navigationController.delegate;
         if ([currentTransMgr isKindOfClass:[SCTransitionManager class]]) {
@@ -132,8 +128,19 @@
                 currentTransMgr.didPop = nil;
             }
         }
-        NSLog(@"替换代理%@ - > %@", currentTransMgr , transMgr);
         navigationController.delegate = transMgr;
+    } else {
+        if (transMgr.didPush) {
+            transMgr.didPush();
+            transMgr.didPush = nil;
+        }
+    }
+}
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    SCTransitionManager *transMgr = objc_getAssociatedObject(viewController, TransitionKey);
+    if ([transMgr isEqual:navigationController.delegate]) {
+        NSLog(@"viewController即将显示，可能添加的额外操作");
     }
 }
 

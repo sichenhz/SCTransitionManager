@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		250DBA071D406B5A00F4D793 /* SCPushTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 250DBA061D406B5A00F4D793 /* SCPushTransition.m */; };
+		250DBA0A1D406B6700F4D793 /* SCPresentTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 250DBA091D406B6700F4D793 /* SCPresentTransition.m */; };
 		258AE5AB1C67AB3F00B86BC6 /* SCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 258AE5AA1C67AB3F00B86BC6 /* SCViewController.m */; };
 		258AE5CE1C6A2F4600B86BC6 /* SCGestureTransitionBackContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 258AE5BD1C6A2F4600B86BC6 /* SCGestureTransitionBackContext.m */; };
 		258AE5CF1C6A2F4600B86BC6 /* SCNormalDismissTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 258AE5BF1C6A2F4600B86BC6 /* SCNormalDismissTransition.m */; };
 		258AE5D01C6A2F4600B86BC6 /* SCNormalPresentTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 258AE5C11C6A2F4600B86BC6 /* SCNormalPresentTransition.m */; };
 		258AE5D11C6A2F4600B86BC6 /* SCSwipeBackInteractionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 258AE5C31C6A2F4600B86BC6 /* SCSwipeBackInteractionController.m */; };
-		258AE5D21C6A2F4600B86BC6 /* SCTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 258AE5C51C6A2F4600B86BC6 /* SCTransition.m */; };
 		258AE5D31C6A2F4600B86BC6 /* SCTransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 258AE5C71C6A2F4600B86BC6 /* SCTransitionManager.m */; };
 		258AE5D41C6A2F4600B86BC6 /* SCZoomDismissTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 258AE5C91C6A2F4600B86BC6 /* SCZoomDismissTransition.m */; };
 		258AE5D51C6A2F4600B86BC6 /* SCZoomPresentTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 258AE5CB1C6A2F4600B86BC6 /* SCZoomPresentTransition.m */; };
@@ -26,6 +27,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		250DBA051D406B5A00F4D793 /* SCPushTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPushTransition.h; sourceTree = "<group>"; };
+		250DBA061D406B5A00F4D793 /* SCPushTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPushTransition.m; sourceTree = "<group>"; };
+		250DBA081D406B6700F4D793 /* SCPresentTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPresentTransition.h; sourceTree = "<group>"; };
+		250DBA091D406B6700F4D793 /* SCPresentTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPresentTransition.m; sourceTree = "<group>"; };
 		258AE5A91C67AB3F00B86BC6 /* SCViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCViewController.h; sourceTree = "<group>"; };
 		258AE5AA1C67AB3F00B86BC6 /* SCViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCViewController.m; sourceTree = "<group>"; };
 		258AE5BC1C6A2F4600B86BC6 /* SCGestureTransitionBackContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCGestureTransitionBackContext.h; sourceTree = "<group>"; };
@@ -36,8 +41,6 @@
 		258AE5C11C6A2F4600B86BC6 /* SCNormalPresentTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNormalPresentTransition.m; sourceTree = "<group>"; };
 		258AE5C21C6A2F4600B86BC6 /* SCSwipeBackInteractionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSwipeBackInteractionController.h; sourceTree = "<group>"; };
 		258AE5C31C6A2F4600B86BC6 /* SCSwipeBackInteractionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSwipeBackInteractionController.m; sourceTree = "<group>"; };
-		258AE5C41C6A2F4600B86BC6 /* SCTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCTransition.h; sourceTree = "<group>"; };
-		258AE5C51C6A2F4600B86BC6 /* SCTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTransition.m; sourceTree = "<group>"; };
 		258AE5C61C6A2F4600B86BC6 /* SCTransitionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCTransitionManager.h; sourceTree = "<group>"; };
 		258AE5C71C6A2F4600B86BC6 /* SCTransitionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTransitionManager.m; sourceTree = "<group>"; };
 		258AE5C81C6A2F4600B86BC6 /* SCZoomDismissTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCZoomDismissTransition.h; sourceTree = "<group>"; };
@@ -72,12 +75,14 @@
 		258AE5BB1C6A2F4600B86BC6 /* SCTransition */ = {
 			isa = PBXGroup;
 			children = (
-				258AE5C41C6A2F4600B86BC6 /* SCTransition.h */,
-				258AE5C51C6A2F4600B86BC6 /* SCTransition.m */,
-				258AE5C21C6A2F4600B86BC6 /* SCSwipeBackInteractionController.h */,
-				258AE5C31C6A2F4600B86BC6 /* SCSwipeBackInteractionController.m */,
+				250DBA051D406B5A00F4D793 /* SCPushTransition.h */,
+				250DBA061D406B5A00F4D793 /* SCPushTransition.m */,
+				250DBA081D406B6700F4D793 /* SCPresentTransition.h */,
+				250DBA091D406B6700F4D793 /* SCPresentTransition.m */,
 				258AE5C61C6A2F4600B86BC6 /* SCTransitionManager.h */,
 				258AE5C71C6A2F4600B86BC6 /* SCTransitionManager.m */,
+				258AE5C21C6A2F4600B86BC6 /* SCSwipeBackInteractionController.h */,
+				258AE5C31C6A2F4600B86BC6 /* SCSwipeBackInteractionController.m */,
 				258AE5C01C6A2F4600B86BC6 /* SCNormalPresentTransition.h */,
 				258AE5C11C6A2F4600B86BC6 /* SCNormalPresentTransition.m */,
 				258AE5BE1C6A2F4600B86BC6 /* SCNormalDismissTransition.h */,
@@ -209,12 +214,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				258AE5D11C6A2F4600B86BC6 /* SCSwipeBackInteractionController.m in Sources */,
+				250DBA0A1D406B6700F4D793 /* SCPresentTransition.m in Sources */,
 				25F0947C1C649A9700942728 /* ViewController.m in Sources */,
 				258AE5D41C6A2F4600B86BC6 /* SCZoomDismissTransition.m in Sources */,
 				258AE5D51C6A2F4600B86BC6 /* SCZoomPresentTransition.m in Sources */,
+				250DBA071D406B5A00F4D793 /* SCPushTransition.m in Sources */,
 				258AE5D01C6A2F4600B86BC6 /* SCNormalPresentTransition.m in Sources */,
 				25F094791C649A9700942728 /* AppDelegate.m in Sources */,
-				258AE5D21C6A2F4600B86BC6 /* SCTransition.m in Sources */,
 				258AE5CF1C6A2F4600B86BC6 /* SCNormalDismissTransition.m in Sources */,
 				258AE5D61C6A2F4600B86BC6 /* UIView+Capture.m in Sources */,
 				258AE5D31C6A2F4600B86BC6 /* SCTransitionManager.m in Sources */,
